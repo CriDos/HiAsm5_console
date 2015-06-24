@@ -40,7 +40,6 @@ HEADERS += \
     src/MainDataBase.h \
     src/Pack.h \
     src/ProjectBuilder.h \
-    src/ProjectManager.h \
     src/PropEditor.h \
     src/SDK.h \
     src/SelectManager.h \
@@ -63,7 +62,6 @@ SOURCES += \
     src/MainDataBase.cpp \
     src/Pack.cpp \
     src/ProjectBuilder.cpp \
-    src/ProjectManager.cpp \
     src/PropEditor.cpp \
     src/SDK.cpp \
     src/SelectManager.cpp \
