@@ -1,4 +1,4 @@
-//STL
+﻿//STL
 
 //Native
 
@@ -237,7 +237,7 @@ void DataValue::parseStrList(const ustring &text, void *value)
         *(ustring *)value = buf;
     }
 
-    delete sb;
+    delete[] sb;
 }
 
 void DataValue::parsePixbuf(const ustring &text, void *value)
@@ -280,7 +280,7 @@ void DataValue::parseFont(const ustring &text, void *value)
     ((FontRecord *)value)->style = atoi(getTok(&buf, ','));
     ((FontRecord *)value)->color = atoi(getTok(&buf, ','));
     ((FontRecord *)value)->charset = atoi(getTok(&buf, ']'));
-    delete sb;
+    delete[] sb;
 }
 
 void DataValue::parse(const ustring &text, DataType type, void *value)

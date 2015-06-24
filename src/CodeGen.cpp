@@ -1,4 +1,4 @@
-//STL
+﻿//STL
 
 //Native
 
@@ -27,12 +27,12 @@ int sdkGetCount(SDK *sdk)
     return sdk->elements.size();
 }
 
-Element *sdkGetElement(SDK *sdk, unsigned int index)
+Element *sdkGetElement(SDK *sdk, int index)
 {
     CGT_TRACE
     unsigned int n = 0;
     if(index >= 0 && index < sdk->elements.size()) {
-        for(ElementsList::iterator i = sdk->elements.begin(); i != sdk->elements.end(); i++)
+        for(ElementsList::iterator i = sdk->elements.begin(); i != sdk->elements.end(); ++i)
             if(index == n)
                 return *i;
             else
@@ -67,7 +67,7 @@ int elGetPropCount(Element *e)
     return e->props.size();
 }
 
-ElementProperty *elGetProperty(Element *e, unsigned int index)
+ElementProperty *elGetProperty(Element *e, int index)
 {
     CGT_TRACE
     if(index >= 0 && index < e->props.size())
@@ -500,7 +500,7 @@ Element *propGetLinkedElement(Element *e, const char *propName)
             s = s.substr(7);
         }
 
-        for(ElementsList::iterator e = sdk->elements.begin(); e != sdk->elements.end(); e++)
+        for(ElementsList::iterator e = sdk->elements.begin(); e != sdk->elements.end(); ++e)
             if((int)(*e)->tpl->conf->interfaces.find(prop->list) != -1)
                 if((*e)->props.getByName("name")->readStr().lowercase() == s)
                     return *e;
@@ -723,7 +723,7 @@ int _Debug(const char *text, int color)
             buf[0] = '@';
         strcpy(buf + 1, text);
         cgt_on_debug.run(buf);
-        delete buf;
+        delete[] buf;
     } else {
         cgt_on_debug.run(text);
     }
@@ -807,7 +807,7 @@ int _Error(int line, Element *e, const char *text)
     buf[0] = '!';
     strcpy(buf + 1, text);
     cgt_on_debug.run(buf);
-    delete buf;
+    delete[] buf;
     return 0;
 }
 

@@ -1,4 +1,4 @@
-//STL
+﻿//STL
 
 //Native
 
@@ -234,7 +234,7 @@ void SelectManager::getClipboardText(const ustring &text)
 
     if(SDKParseError e = sdk->loadFromText(buf, line, ELEMENT_LOAD_PASTE))
         std::cout << "Error parse[" << line << "]: code " << e << std::endl;
-    delete sbuf;
+    delete[] sbuf;
 
     drawEnable = de;
     on_selection_change.enabled = true;

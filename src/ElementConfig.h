@@ -1,4 +1,4 @@
-#ifndef ELEMENTCONFIG_H_
+﻿#ifndef ELEMENTCONFIG_H_
 #define ELEMENTCONFIG_H_
 //STL
 
@@ -36,6 +36,16 @@ typedef struct _ConfMethod {
         mType = conf.mType;
         dataType = conf.dataType;
     }
+    _ConfMethod &operator=(_ConfMethod &conf)
+    {
+        name = conf.name;
+        prop = conf.prop;
+        info = conf.info;
+        mType = conf.mType;
+        dataType = conf.dataType;
+
+        return *this;
+    }
 } ConfMethod;
 
 /*! \struct ConfProperty
@@ -71,6 +81,19 @@ typedef struct _ConfProperty {
         list = conf.list;
         flags = conf.flags;
     }
+    _ConfProperty &operator=(_ConfProperty &conf)
+    {
+        name = conf.name;
+        info = conf.info;
+        type = conf.type;
+        value = conf.value;
+        group = conf.group;
+        list = conf.list;
+        flags = conf.flags;
+
+        return *this;
+    }
+
 } ConfProperty;
 
 typedef std::list<ConfProperty *> ConfPropertys;

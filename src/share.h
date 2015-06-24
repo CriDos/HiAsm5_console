@@ -1,4 +1,4 @@
-/*
+﻿/*
  * share.h
  *
  *  Created on: 01.05.2010
@@ -29,13 +29,8 @@ using namespace Glib;
 #define HIASM_VERSION_BUILD 12
 gchar *HIASM_VERSION();
 
-#ifdef G_OS_WIN32
 #define LINE_END "\n"
 #define PATH_SLASH "\\"
-#else
-#define LINE_END "\n"
-#define PATH_SLASH "/"
-#endif
 
 // point types ----------------------------------------------------------------------------------------
 
@@ -124,7 +119,7 @@ extern char *getTok(char **buf, char tok);
 
 extern ustring databaseFile;
 extern ustring dataDir;
-extern ustring homeDir;
+extern ustring currentDir;
 
 // internal types --------------------------------------------------------------------------------------
 typedef Cairo::RefPtr<Cairo::Context> DrawContext;
@@ -255,7 +250,7 @@ public:
     void run(const void *data)
     {
         if(enabled)
-            for(std::list<CallBack *>::iterator event = objs.begin(); event != objs.end(); event++)
+            for(std::list<CallBack *>::iterator event = objs.begin(); event != objs.end(); ++event)
                 (*event)->callback(owner, type, data);
     }
 };

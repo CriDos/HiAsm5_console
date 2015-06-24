@@ -87,27 +87,19 @@ Glib::RefPtr<Gdk::Pixbuf> getPointIcon(int type)
 
 ustring databaseFile;
 ustring dataDir;
-ustring homeDir;
+ustring currentDir;
 
 void initDirs()
 {
 
-#ifdef G_OS_WIN32
     dataDir = ustring(g_get_current_dir()) + G_DIR_SEPARATOR_S;
-#else
-#ifdef G_OS_MACOS
-    dataDir = ustring(g_get_current_dir()) + G_DIR_SEPARATOR_S;
-#else
-    dataDir = "/usr/share/hiasm/";
-#endif
-#endif
 
-    homeDir = ustring(g_get_current_dir()) + G_DIR_SEPARATOR_S + "Profile" + G_DIR_SEPARATOR_S;
-    if(!file_test(homeDir, FILE_TEST_IS_DIR)) {
-        g_mkdir_with_parents(homeDir.c_str(), 0777);
-        DEBUG_MSG("Create dir " << homeDir.c_str())
+    currentDir = ustring(g_get_current_dir()) + G_DIR_SEPARATOR_S + "Profile" + G_DIR_SEPARATOR_S;
+    if(!file_test(currentDir, FILE_TEST_IS_DIR)) {
+        g_mkdir_with_parents(currentDir.c_str(), 0777);
+        DEBUG_MSG("Create dir " << currentDir.c_str())
     }
-    databaseFile = homeDir + DATABASE_FILE;
+    databaseFile = currentDir + DATABASE_FILE;
     if(!file_test(databaseFile, FILE_TEST_EXISTS)) {
         GFile *f2 = g_file_new_for_path(databaseFile.c_str());
         ustring locDB = dataDir + INT_PATH + DATABASE_FILE;

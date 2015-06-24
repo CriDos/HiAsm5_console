@@ -1,4 +1,4 @@
-//STL
+﻿//STL
 
 //Native
 
@@ -22,7 +22,7 @@ TypePixbuf(*stockRender)(const ustring &name) = NULL;
 ElementPoint *ElementPoints::getByName(const ustring &name)
 {
     ustring sp = name.lowercase();
-    for(iterator p = begin(); p != end(); p++)
+    for(iterator p = begin(); p != end(); ++p)
         if((*p)->name.lowercase() == sp)
             return *p;
     return NULL;
@@ -31,7 +31,7 @@ ElementPoint *ElementPoints::getByName(const ustring &name)
 int ElementPoints::indexOf(ElementPoint *point)
 {
     int i = 0;
-    for(iterator p = begin(); p != end(); p++)
+    for(iterator p = begin(); p != end(); ++p)
         if(*p == point)
             return i;
         else
@@ -42,7 +42,7 @@ int ElementPoints::indexOf(ElementPoint *point)
 int ElementPoints::indexOfType(ElementPoint *point)
 {
     int i = 0;
-    for(iterator p = begin(); p != end(); p++)
+    for(iterator p = begin(); p != end(); ++p)
         if((*p)->type == point->type) {
             i++;
             if(*p == point)
@@ -56,7 +56,7 @@ int ElementPoints::indexOfType(ElementPoint *point)
 ElementProperty *ElementProperties::getByName(const ustring &name)
 {
     ustring prop = name.lowercase();
-    for(iterator p = begin(); p != end(); p++)
+    for(iterator p = begin(); p != end(); ++p)
         if((*p)->name.lowercase() == prop)
             return *p;
     return NULL;
@@ -67,7 +67,7 @@ ElementProperty *ElementProperties::getByPointName(const ustring &name)
     if(name.length() < 3) return NULL;
 
     ustring tmp(name.lowercase(), 2, name.length() - 2);
-    for(iterator p = begin(); p != end(); p++)
+    for(iterator p = begin(); p != end(); ++p)
         if(((*p)->flag & VF_MAKEPOINT) && (*p)->name.lowercase() == tmp)
             return *p;
     return NULL;
@@ -75,20 +75,20 @@ ElementProperty *ElementProperties::getByPointName(const ustring &name)
 
 void ElementProperties::change()
 {
-    for(iterator p = begin(); p != end(); p++)
+    for(iterator p = begin(); p != end(); ++p)
         (*p)->parent->on_change_property(*p);
 }
 
 void ElementProperties::free()
 {
-    for(iterator p = begin(); p != end(); p++)
+    for(iterator p = begin(); p != end(); ++p)
         delete(*p);
     clear();
 }
 
 void ElementProperties::setParent(Element *parent)
 {
-    for(iterator p = begin(); p != end(); p++)
+    for(iterator p = begin(); p != end(); ++p)
         (*p)->parent = parent;
 }
 
@@ -108,13 +108,13 @@ void LinkHints::restore(int x, int y, int width, int height, ElementProperty *pr
 
 void LinkHints::draw(DrawContext dc)
 {
-    for(iterator h = begin(); h != end(); h++)
+    for(iterator h = begin(); h != end(); ++h)
         (*h)->draw(dc);
 }
 
 void LinkHints::free()
 {
-    for(iterator h = begin(); h != end(); h++)
+    for(iterator h = begin(); h != end(); ++h)
         delete *h;
     clear();
 }
@@ -122,14 +122,14 @@ void LinkHints::free()
 Gdk::Rectangle LinkHints::drawRect()
 {
     Gdk::Rectangle r;
-    for(iterator h = begin(); h != end(); h++)
+    for(iterator h = begin(); h != end(); ++h)
         r.join((*h)->drawRect());
     return r;
 }
 
 void LinkHints::saveToText(ustring &text, const ustring offset)
 {
-    for(iterator h = begin(); h != end(); h++)
+    for(iterator h = begin(); h != end(); ++h)
         if((*h)->prop) {
             ustring pref = (*h)->parent->sysProps.getByName((*h)->prop->name) ? "@" : "";
             text += offset +  " AddHint(" + int_to_str((*h)->x) + "," +
@@ -141,7 +141,7 @@ void LinkHints::saveToText(ustring &text, const ustring offset)
 
 bool LinkHints::getObjectAtPos(gdouble x, gdouble y, ObjectType *obj)
 {
-    for(iterator h = begin(); h != end(); h++) {
+    for(iterator h = begin(); h != end(); ++h) {
         Gdk::Rectangle r = (*h)->drawRect();
         if(x >= r.get_x() && y >= r.get_y() && x <= r.get_x() + r.get_width() && y <= r.get_y() + r.get_height()) {
             *obj = ObjectType(*h);
@@ -155,7 +155,7 @@ void LinkHints::change(ElementProperty *prop)
 {
     bool ch = false;
     Gdk::Rectangle r = prop->parent->drawRect();
-    for(iterator h = begin(); h != end(); h++)
+    for(iterator h = begin(); h != end(); ++h)
         if((*h)->prop == prop) {
             (*h)->updateText();
             ch = true;
@@ -345,7 +345,7 @@ Element::Element(PackElement *pe, SDK *sdk, gdouble x, gdouble y):
 Element::~Element()
 {
     // points
-    for(ElementPoints::iterator p = points.begin(); p != points.end(); p++)
+    for(ElementPoints::iterator p = points.begin(); p != points.end(); ++p)
         delete(*p);
     points.clear();
 
@@ -436,7 +436,7 @@ void Element::drawBody(DrawContext dc, double zoom)
             ptr->add_color_stop_rgb(1, color.get_red_p(), color.get_green_p(), color.get_blue_p());
         //----------
     */
-    if(zoom == 1)
+    if(zoom <= 1.0)
         dc->rectangle(x, y, width, height);
     else
         roundRect(dc, x, y, width, height);
@@ -446,7 +446,7 @@ void Element::drawBody(DrawContext dc, double zoom)
         dc->set_source_rgb(0.0, 0.0, 1.0);
     else
         Gdk::Cairo::set_source_color(dc, colorDark);
-    if(zoom == 1) {
+    if(zoom <= 1.0) {
         //dc->rectangle(x, y, width, height);
 
         dc->move_to(x + width, y);
@@ -500,16 +500,16 @@ void Element::drawIcon(DrawContext dc)
 
 void Element::drawPoints(DrawContext dc)
 {
-    for(ElementPoints::iterator p = points.begin(); p != points.end(); p++) {
+    for(ElementPoints::iterator p = points.begin(); p != points.end(); ++p) {
         if((*p)->isSelect())
             dc->set_source_rgb(0.0, 0.6, 0.0);
         else
             dc->set_source_rgb(0.0, 1.0, 0.0);
-        dc->arc((*p)->pos->x, (*p)->pos->y, POINT_OFF, 0, 2 * 3.1415);
+        dc->arc((*p)->pos->x, (*p)->pos->y, POINT_OFF, 0, 2 * M_PI);
         //dc->rectangle((*p)->pos->x, (*p)->pos->y, POINT_SPACE, POINT_SPACE);
         dc->fill();
         dc->set_source_rgb(0.4, 0.4, 0.4);
-        dc->arc((*p)->pos->x, (*p)->pos->y, POINT_OFF, 0, 2 * 3.1415);
+        dc->arc((*p)->pos->x, (*p)->pos->y, POINT_OFF, 0, 2 * M_PI);
         //dc->rectangle((*p)->pos->x, (*p)->pos->y, POINT_SPACE, POINT_SPACE);
         dc->stroke();
     }
@@ -519,7 +519,7 @@ void Element::drawLinks(DrawContext dc)
 {
     PointPos *pb;
 
-    for(ElementPoints::iterator p = points.begin(); p != points.end(); p++)
+    for(ElementPoints::iterator p = points.begin(); p != points.end(); ++p)
         if((*p)->pos->next) {
             if((*p)->type == pt_event)
                 dc->set_source_rgb(0.0, 0.0, 0.5);
@@ -571,7 +571,7 @@ void Element::changeColor()
 
 void Element::clearLinks()
 {
-    for(ElementPoints::iterator p = points.begin(); p != points.end(); p++)
+    for(ElementPoints::iterator p = points.begin(); p != points.end(); ++p)
         (*p)->clear();
 }
 
@@ -584,7 +584,7 @@ ElementPoint *Element::addPoint(const ustring &name, const ustring &info, int ty
 
 void Element::removePoint(ElementPoint *point)
 {
-    for(ElementPoints::iterator p = points.begin(); p != points.end(); p++)
+    for(ElementPoints::iterator p = points.begin(); p != points.end(); ++p)
         if(*p == point) {
             points.erase(p);
             break;
@@ -601,7 +601,7 @@ void Element::rePosPoints()
 void Element::rePosPointsWOsize()
 {
     int count[4] = {0};
-    for(ElementPoints::iterator p = points.begin(); p != points.end(); p++) {
+    for(ElementPoints::iterator p = points.begin(); p != points.end(); ++p) {
         int *c = &count[(*p)->type - 1];
         (*p)->pos->x = x;
         (*p)->pos->y = y;
@@ -624,7 +624,7 @@ void Element::rePosPointsWOsize()
 void Element::reSize()
 {
     int count[4] = {0};
-    for(ElementPoints::iterator p = points.begin(); p != points.end(); p++)
+    for(ElementPoints::iterator p = points.begin(); p != points.end(); ++p)
         count[(*p)->type - 1] ++;
 
     width = max(minWidth, max(count[2], count[3]) * POINT_SPACE + POINT_OFF);
@@ -634,14 +634,14 @@ void Element::reSize()
 void Element::buildFromTemplate()
 {
     // points ----------------------------------------------------
-    for(ConfMethods::iterator mt = tpl->conf->mtd.begin(); mt != tpl->conf->mtd.end(); mt++) {
+    for(ConfMethods::iterator mt = tpl->conf->mtd.begin(); mt != tpl->conf->mtd.end(); ++mt) {
         ElementPoint *p = addPoint((*mt)->name, (*mt)->info, (*mt)->mType);
         p->dataType = (*mt)->dataType;
     }
     rePosPoints();
 
     // propertys -------------------------------------------------
-    for(ConfPropertys::iterator pt = tpl->conf->prop.begin(); pt != tpl->conf->prop.end(); pt++) {
+    for(ConfPropertys::iterator pt = tpl->conf->prop.begin(); pt != tpl->conf->prop.end(); ++pt) {
         ElementProperty *p = new ElementProperty(this, *pt);
         props.push_back(p);
     }
@@ -654,7 +654,7 @@ void Element::move(gdouble dx, gdouble dy)
     x += dx;
     y += dy;
 
-    for(ElementPoints::iterator p = points.begin(); p != points.end(); p++)
+    for(ElementPoints::iterator p = points.begin(); p != points.end(); ++p)
         (*p)->move(dx, dy);
 }
 
@@ -738,7 +738,7 @@ void Element::removeFromLine(bool we, bool vd)
             int k = i * 2 + 1;
             ElementPoint *p1 = NULL, *p2 = NULL;
 
-            for(ElementPoints::iterator p = points.begin(); p != points.end(); p++)
+            for(ElementPoints::iterator p = points.begin(); p != points.end(); ++p)
                 if((*p)->point) {
                     if((*p)->type == k && p1 == NULL)
                         p1 = *p;
@@ -806,7 +806,7 @@ bool Element::findLine(gdouble x, gdouble y, ObjectType *obj)
     PointPos *pb;
     void *tmp;
 
-    for(ElementPoints::iterator p = points.begin(); p != points.end(); p++)
+    for(ElementPoints::iterator p = points.begin(); p != points.end(); ++p)
         if((*p)->pos->next) {
             pb = (*p)->pos;
             do {
@@ -828,7 +828,7 @@ bool Element::getObjectAtPos(gdouble x, gdouble y, ObjectType *obj)
         return false;
 
     PointPos *pb;
-    for(ElementPoints::iterator p = points.begin(); p != points.end(); p++)
+    for(ElementPoints::iterator p = points.begin(); p != points.end(); ++p)
         if((*p)->pos->next) {
             pb = (*p)->pos->next;
             while(pb->next)
@@ -842,7 +842,7 @@ bool Element::getObjectAtPos(gdouble x, gdouble y, ObjectType *obj)
         return true;
 
     if(!(y < this->y - 3 || y > this->y + height + 3 || x < this->x - 3 || x > this->x + width + 3)) {
-        for(ElementPoints::iterator p = points.begin(); p != points.end(); p++)
+        for(ElementPoints::iterator p = points.begin(); p != points.end(); ++p)
             if((abs((*p)->pos->x - x) <= POINT_OFF + 1) && (abs((*p)->pos->y - y) <= POINT_OFF + 1)) {
                 *obj = ObjectType(*p);
                 return true;
@@ -869,7 +869,7 @@ bool Element::checkColliseRect(gdouble x1, gdouble y1, gdouble x2, gdouble y2)
 Gdk::Rectangle Element::drawRect()
 {
     Gdk::Rectangle r(x - POINT_OFF, y - POINT_OFF, width + POINT_SPACE, height + POINT_SPACE);
-    for(ElementPoints::iterator p = points.begin(); p != points.end(); p++)
+    for(ElementPoints::iterator p = points.begin(); p != points.end(); ++p)
         r.join((*p)->drawRect());
 
     if(hints.size())
@@ -886,7 +886,7 @@ void Element::invalidate()
 
 ElementPoint *Element::getFirstFreePoint(int type)
 {
-    for(ElementPoints::iterator p = points.begin(); p != points.end(); p++)
+    for(ElementPoints::iterator p = points.begin(); p != points.end(); ++p)
         if((*p)->type == type && !(*p)->point)
             return *p;
     return NULL;
@@ -894,7 +894,7 @@ ElementPoint *Element::getFirstFreePoint(int type)
 
 ElementPoint *Element::getLastFreePoint(int type)
 {
-    for(ElementPoints::reverse_iterator p = points.rbegin(); p != points.rend(); p++)
+    for(ElementPoints::reverse_iterator p = points.rbegin(); p != points.rend(); ++p)
         if((*p)->type == type)
             return (*p)->point ? NULL : *p;
     return NULL;
@@ -902,7 +902,7 @@ ElementPoint *Element::getLastFreePoint(int type)
 
 ElementPoint *Element::getLastPoint(int type)
 {
-    for(ElementPoints::reverse_iterator p = points.rbegin(); p != points.rend(); p++)
+    for(ElementPoints::reverse_iterator p = points.rbegin(); p != points.rend(); ++p)
         if((*p)->type == type)
             return *p;
     return NULL;
@@ -911,7 +911,7 @@ ElementPoint *Element::getLastPoint(int type)
 int Element::getPointsCount(int type)
 {
     int c = 0;
-    for(ElementPoints::iterator p = points.begin(); p != points.end(); p++)
+    for(ElementPoints::iterator p = points.begin(); p != points.end(); ++p)
         if((*p)->type == type)
             c++;
     return c;
@@ -949,21 +949,21 @@ void Element::saveAsLink(ustring &text)
 
 void Element::saveParamsToText(ustring &text, const ustring offset, int flags)
 {
-    for(ElementProperties::iterator p = props.begin(); p != props.end(); p++)
+    for(ElementProperties::iterator p = props.begin(); p != props.end(); ++p)
         if(!(flags & ELEMENT_SAVE_CHANGED) || !(*p)->isDefault())
             text += offset + " " + (*p)->name + "=" + (*p)->serialize() + LINE_END;
 }
 
 void Element::saveSysParamsToText(ustring &text, const ustring offset, int flags)
 {
-    for(ElementProperties::iterator p = sysProps.begin(); p != sysProps.end(); p++)
+    for(ElementProperties::iterator p = sysProps.begin(); p != sysProps.end(); ++p)
         if(!(flags & ELEMENT_SAVE_CHANGED) || !(*p)->isDefault())
             text += offset + " @" + (*p)->name + "=" + (*p)->serialize() + LINE_END;
 }
 
 void Element::savePointsToText(ustring &text, const ustring offset, int flags)
 {
-    for(ElementPoints::iterator p = points.begin(); p != points.end(); p++) {
+    for(ElementPoints::iterator p = points.begin(); p != points.end(); ++p) {
         if(props.getByPointName((*p)->name) || tpl->conf->def.getByName((*p)->name))
             text += offset + " Point(" + (*p)->name + ")"LINE_END;
 
@@ -997,7 +997,7 @@ Element *Element::getParentElement()
 {
     if(sdk && sdk->elements.size() > 1) {
         ElementsList::iterator it = sdk->elements.begin();
-        it++;
+        ++it;
         return (*it)->isParent() ? *it : NULL;
     }
 

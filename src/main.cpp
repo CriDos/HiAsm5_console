@@ -35,13 +35,14 @@ int main(int argc, char **argv)
     DEBUG_MSG("load scheme...")
     MSDK *sdk = new MSDK();
 
-    ustring filePath = ustring(g_get_current_dir()) + "/HelloWorld.sha";
+    ustring filePath = ustring(g_get_current_dir()) + "/test.sha";
     cout << "loadFromFile:" << filePath << std::endl;
     cout << "loadFromFileResult:" << sdk->loadFromFile(filePath) << std::endl;
 
     DEBUG_MSG("build scheme...")
-    ProjectBuilder pbuilder;
-    pbuilder.build(sdk);
+    ProjectBuilder builder;
+    builder.build(sdk);
+    builder.run(sdk);
 
     return 0;
 }

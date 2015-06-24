@@ -59,6 +59,7 @@ public:
     Event on_selection_change;  /**< call when elements has been changed */
 
     SelectManager(SDK *sdk);
+    virtual ~SelectManager() {}
 
     /**
      * Add element in selection list

@@ -1,4 +1,4 @@
-//STL
+﻿//STL
 
 //Native
 
@@ -97,18 +97,21 @@ void ProjectBuilder::buildWithCodeGen(MSDK *sdk, const ustring &name)
                 // replace macros
                 const char *upath = "%upath%";
                 int i;
+				int upathLen = strlen(upath);
                 while((i = cmd.find(upath)) > 0) {
-                    cmd.replace(i, strlen(upath), sdk->pack->pathCode());
+                    cmd.replace(i, upathLen, sdk->pack->pathCode());
                 }
                 const char *opath = "%opath%";
+				int opathLen = strlen(opath);
                 while((i = cmd.find(opath)) > 0) {
-                    cmd.replace(i, strlen(opath), out_project_path);
+                    cmd.replace(i, opathLen, out_project_path);
                 }
                 const char *fname = "%fname%";
+				int fnameLen = strlen(fname);
                 ustring prj(out_project_name);
                 prj.append(".").append(sdk->packProject->ext);
                 while((i = cmd.find(fname)) > 0) {
-                    cmd.replace(i, strlen(fname), prj);
+                    cmd.replace(i, fnameLen, prj);
                 }
 
                 cgt_on_debug.run(cmd.c_str());
@@ -144,10 +147,7 @@ ustring ProjectBuilder::getOutputProjectName(MSDK *sdk)
     if(*g_path_get_dirname(n.c_str()) == '.')
         n = SettingsManager::readProjectsDir() + n;
 
-#ifdef G_PLATFORM_WIN32
     n += ".exe";
-#endif
-
     return n;
 }
 
@@ -167,10 +167,6 @@ void ProjectBuilder::build(MSDK *sdk)
     }
     //-------------------------------------------------------------
 
-#ifndef G_PLATFORM_WIN32
-    cgt_on_debug.run("@set permissions...");
-    chmod(n.c_str(), 0777);
-#endif
     cgt_on_debug.run("~End build.");
 }
 

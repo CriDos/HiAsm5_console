@@ -1,4 +1,4 @@
-//STL
+﻿//STL
 
 //Native
 
@@ -41,7 +41,7 @@ void CompilerCollection::load()
 
 Compiler *CompilerCollection::getById(int id)
 {
-    for(iterator c = begin(); c != end(); c++)
+    for(iterator c = begin(); c != end(); ++c)
         if((*c)->id == id)
             return *c;
     return NULL;
