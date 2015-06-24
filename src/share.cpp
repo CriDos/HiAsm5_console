@@ -94,7 +94,7 @@ void initDirs() {
 	#endif
 #endif
 
-	homeDir = ustring(g_get_home_dir()) + G_DIR_SEPARATOR_S".hiasm"G_DIR_SEPARATOR_S;
+    homeDir = ustring(g_get_current_dir()) + G_DIR_SEPARATOR_S + "Profile" + G_DIR_SEPARATOR_S;
 	if(!file_test(homeDir, FILE_TEST_IS_DIR)) {
 		g_mkdir_with_parents(homeDir.c_str(), 0777);
 		DEBUG_MSG("Create dir " << homeDir.c_str())
@@ -102,7 +102,7 @@ void initDirs() {
 	databaseFile = homeDir + DATABASE_FILE;
 	if(!file_test(databaseFile, FILE_TEST_EXISTS)) {
 		GFile *f2 = g_file_new_for_path(databaseFile.c_str());
-		ustring locDB = dataDir + INT_PATH""DATABASE_FILE;
+        ustring locDB = dataDir + INT_PATH + DATABASE_FILE;
 		GFile *f1 = g_file_new_for_path(locDB.c_str());
 		DEBUG_MSG("Copy " << locDB.c_str() << " to " << databaseFile.c_str())
 		g_file_copy(f1, f2, G_FILE_COPY_NONE, NULL, NULL, NULL, NULL);

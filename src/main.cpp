@@ -28,7 +28,9 @@ int main(int argc, char **argv)
     DEBUG_MSG("load scheme...")
     MSDK *sdk = new MSDK();
 
-    cout << "loadFromFile:" << sdk->loadFromFile("D:/dev/Qt/MainProjects/hiasm5_qt-project_1.0/HiAsm5_build/Elements/CNET/HelloWorld.sha") << std::endl;
+    ustring filePath = ustring(g_get_current_dir()) + "/HelloWorld.sha";
+    cout << "loadFromFile:" << filePath << std::endl;
+    cout << "loadFromFileResult:" << sdk->loadFromFile(filePath) << std::endl;
 
     DEBUG_MSG("build scheme...")
     ProjectBuilder pbuilder;
