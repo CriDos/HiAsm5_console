@@ -7,56 +7,71 @@
 
 #ifndef SETTINGSMANAGER_H_
 #define SETTINGSMANAGER_H_
+//STL
 
+//Native
+
+//GTKMM
+
+//Qt
+
+//Project
 #include "share.h"
 #include "PropEditor.h"
 
 enum SettingsIDS {
-	IDS_MASK_OF_NAME = 134,
-	IDS_PROJECTS_DIR = 135,
-	IDS_NEW_PROJECT  = 136,
+    IDS_MASK_OF_NAME = 134,
+    IDS_PROJECTS_DIR = 135,
+    IDS_NEW_PROJECT  = 136,
 };
 
-class SettingsManager : public Dialog, public CallBack {
-	private:
-		TreeView menu;
-		PropEditor props;
-		Fixed pFixed;
-		ScrolledWindow pScroll;
-		HPaned hpaned;
-		VPaned vpaned;
-		TextView info;
+class SettingsManager : public Dialog, public CallBack
+{
+private:
+    TreeView menu;
+    PropEditor props;
+    Fixed pFixed;
+    ScrolledWindow pScroll;
+    HPaned hpaned;
+    VPaned vpaned;
+    TextView info;
 
-		Glib::RefPtr<ListStore> menuStore;
-		const struct MenuModelColumns : public TreeModelColumnRecord {
-			Gtk::TreeModelColumn< Glib::RefPtr<Gdk::Pixbuf> > icon;
-			Gtk::TreeModelColumn<ustring> name;
-			Gtk::TreeModelColumn<ustring> info;
-			Gtk::TreeModelColumn<int> id;
+    Glib::RefPtr<ListStore> menuStore;
+    const struct MenuModelColumns : public TreeModelColumnRecord {
+        Gtk::TreeModelColumn< Glib::RefPtr<Gdk::Pixbuf> > icon;
+        Gtk::TreeModelColumn<ustring> name;
+        Gtk::TreeModelColumn<ustring> info;
+        Gtk::TreeModelColumn<int> id;
 
-			MenuModelColumns() { add(icon); add(name); add(info); add(id); }
-		} menuColumns;
+        MenuModelColumns()
+        {
+            add(icon);
+            add(name);
+            add(info);
+            add(id);
+        }
+    } menuColumns;
 
-		virtual void props_on_size_allocate(Allocation &alloc);
-		virtual void on_show_ep_row_activated();
+    virtual void props_on_size_allocate(Allocation &alloc);
+    virtual void on_show_ep_row_activated();
 
-		virtual void callback(void *owner, CallbackType type, const void *data);
+    virtual void callback(void *owner, CallbackType type, const void *data);
 
-		void fillProps(int pid, PropertyItem *group = NULL);
-	public:
-		Event on_change_settings;
+    void fillProps(int pid, PropertyItem *group = NULL);
+public:
+    Event on_change_settings;
 
-		SettingsManager();
+    SettingsManager();
 
-		static void show();
-		static void init();
+    static void show();
+    static void init();
 
-		static int readInt(SettingsIDS id);
-		static double readReal(SettingsIDS id);
-		static ustring &readStr(SettingsIDS id);
-		static Gdk::Color readColor(SettingsIDS id);
+    static int readInt(SettingsIDS id);
+    static double readReal(SettingsIDS id);
+    static ustring &readStr(SettingsIDS id);
+    static Gdk::Color readColor(SettingsIDS id);
 
-		static ustring readProjectsDir();
+    static ustring readProjectsDir();
 };
 
 extern SettingsManager *settingsMan;

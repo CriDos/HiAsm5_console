@@ -1,10 +1,12 @@
-/*
- * CodeGen.cpp
- *
- *  Created on: Nov 9, 2010
- *      Author: dilma
- */
+//STL
 
+//Native
+
+//GTKMM
+
+//Qt
+
+//Project
 #include "CodeGen.h"
 #include "ProjectBuilder.h"
 #include "Elements.h"

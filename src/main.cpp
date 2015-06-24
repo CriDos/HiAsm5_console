@@ -1,9 +1,16 @@
+//STL
 #include <iostream>
 
+//Native
+
+//GTKMM
 #include <gtkmm.h>
 #include <glibmm.h>
-#include "Pack.h"
 
+//Qt
+
+//Project
+#include "Pack.h"
 #include "SDK.h"
 #include "Elements.h"
 #include "MainDataBase.h"
@@ -35,7 +42,6 @@ int main(int argc, char **argv)
     DEBUG_MSG("build scheme...")
     ProjectBuilder pbuilder;
     pbuilder.build(sdk);
-
 
     return 0;
 }

@@ -1,10 +1,12 @@
-/*
- * ProjectBuilder.cpp
- *
- *  Created on: 08.08.2010
- *      Author: dilma
- */
+//STL
 
+//Native
+
+//GTKMM
+
+//Qt
+
+//Project
 #include "ProjectBuilder.h"
 #include "SettingsManager.h"
 #include "CodeGen.h"
