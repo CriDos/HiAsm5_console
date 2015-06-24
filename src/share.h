@@ -13,15 +13,16 @@
 //Native
 
 //GTKMM
-using namespace Gtk;
-using namespace Glib;
+#include <gtkmm.h>
+#include <glib.h>
 
 //Qt
 
 //Project
 
-#include <gtkmm.h>
-#include <glib.h>
+
+using namespace Gtk;
+using namespace Glib;
 
 #define HIASM_VERSION_MAJOR 5
 #define HIASM_VERSION_MINOR 0
