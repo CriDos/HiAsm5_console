@@ -40,10 +40,8 @@ HEADERS += \
     src/MainDataBase.h \
     src/Pack.h \
     src/ProjectBuilder.h \
-    src/PropEditor.h \
     src/SDK.h \
     src/SelectManager.h \
-    src/SettingsManager.h \
     src/SHADialogs.h \
     src/share.h \
     src/StringList.h
@@ -62,10 +60,8 @@ SOURCES += \
     src/MainDataBase.cpp \
     src/Pack.cpp \
     src/ProjectBuilder.cpp \
-    src/PropEditor.cpp \
     src/SDK.cpp \
     src/SelectManager.cpp \
-    src/SettingsManager.cpp \
     src/SHADialogs.cpp \
     src/share.cpp \
     src/StringList.cpp

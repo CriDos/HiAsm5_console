@@ -8,7 +8,7 @@
 
 //Project
 #include "ProjectBuilder.h"
-#include "SettingsManager.h"
+//#include "SettingsManager.h"
 #include "CodeGen.h"
 
 ProjectBuilder::ProjectBuilder()
@@ -97,17 +97,17 @@ void ProjectBuilder::buildWithCodeGen(MSDK *sdk, const ustring &name)
                 // replace macros
                 const char *upath = "%upath%";
                 int i;
-				int upathLen = strlen(upath);
+                int upathLen = strlen(upath);
                 while((i = cmd.find(upath)) > 0) {
                     cmd.replace(i, upathLen, sdk->pack->pathCode());
                 }
                 const char *opath = "%opath%";
-				int opathLen = strlen(opath);
+                int opathLen = strlen(opath);
                 while((i = cmd.find(opath)) > 0) {
                     cmd.replace(i, opathLen, out_project_path);
                 }
                 const char *fname = "%fname%";
-				int fnameLen = strlen(fname);
+                int fnameLen = strlen(fname);
                 ustring prj(out_project_name);
                 prj.append(".").append(sdk->packProject->ext);
                 while((i = cmd.find(fname)) > 0) {
@@ -144,9 +144,6 @@ ustring ProjectBuilder::getOutputProjectName(MSDK *sdk)
 {
     ustring n = sdk->fileName;
     n.erase(n.length() - 4, 4);
-    if(*g_path_get_dirname(n.c_str()) == '.')
-        n = SettingsManager::readProjectsDir() + n;
-
     n += ".exe";
     return n;
 }
