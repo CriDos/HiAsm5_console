@@ -1,5 +1,4 @@
-﻿#ifndef ELEMENTCONFIG_H_
-#define ELEMENTCONFIG_H_
+﻿#pragma once
 //STL
 
 //Native
@@ -188,5 +187,3 @@ public:
         return cClass == "WinElement";
     }
 };
-
-#endif /* ELEMENTCONFIG_H_ */

@@ -1,6 +1,4 @@
-#ifndef COMPILER_H_
-#define COMPILER_H_
-
+#pragma once
 //STL
 
 //Native
@@ -37,5 +35,3 @@ public:
 };
 
 extern CompilerCollection *compilerSet;
-
-#endif /* COMPILER_H_ */

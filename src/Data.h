@@ -1,5 +1,4 @@
-#ifndef DATA_H_
-#define DATA_H_
+#pragma once
 //STL
 
 //Native
@@ -359,5 +358,3 @@ public:
      */
     virtual void _arr_add(TData &data) {}
 };
-
-#endif /* DATA_H_ */

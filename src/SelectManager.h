@@ -1,12 +1,4 @@
-/*
- * SelectManager.h
- *
- *  Created on: 05.05.2010
- *      Author: dilma
- */
-
-#ifndef SELECTMANAGER_H_
-#define SELECTMANAGER_H_
+#pragma once
 //STL
 
 //Native
@@ -158,4 +150,3 @@ public:
     void copyAsLink();
 };
 
-#endif /* SELECTMANAGER_H_ */

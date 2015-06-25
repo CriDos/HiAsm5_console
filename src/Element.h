@@ -1,5 +1,4 @@
-#ifndef ELEMENT_H_
-#define ELEMENT_H_
+#pragma once
 //STL
 
 //Native
@@ -642,5 +641,3 @@ public:
         return flag & (ELEMENT_FLG_IS_NODELETE | ELEMENT_FLG_IS_PARENT);
     }
 };
-
-#endif /* ELEMENT_H_ */

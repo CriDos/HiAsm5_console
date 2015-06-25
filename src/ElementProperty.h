@@ -1,12 +1,4 @@
-/*
- * ElementProperty.h
- *
- *  Created on: 17.05.2010
- *      Author: dilma
- */
-
-#ifndef ELEMENTPROPERTY_H_
-#define ELEMENTPROPERTY_H_
+#pragma once
 //STL
 
 //Native
@@ -270,5 +262,3 @@ public:
         erase(begin() + i);
     }
 };
-
-#endif /* ELEMENTPROPERTY_H_ */

@@ -1,12 +1,4 @@
-/*
- * ElementPoint.h
- *
- *  Created on: 17.05.2010
- *      Author: dilma
- */
-
-#ifndef ELEMENTPOINT_H_
-#define ELEMENTPOINT_H_
+#pragma once
 //STL
 
 //Native
@@ -196,5 +188,3 @@ public:
         on_event(&dt);
     }
 };
-
-#endif /* ELEMENTPOINT_H_ */

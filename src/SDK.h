@@ -1,12 +1,4 @@
-/*
- * SDK.h
- *
- *  Created on: 02.05.2010
- *      Author: dilma
- */
-
-#ifndef SDK_H_
-#define SDK_H_
+#pragma once
 //STL
 
 //Native
@@ -270,5 +262,3 @@ public:
         return running;
     }
 };
-
-#endif /* SDK_H_ */

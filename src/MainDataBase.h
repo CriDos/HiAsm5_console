@@ -1,12 +1,4 @@
-/*
- * MainDataBase.h
- *
- *  Created on: 07.05.2010
- *      Author: dilma
- */
-
-#ifndef MAINDATABASE_H_
-#define MAINDATABASE_H_
+#pragma once
 //STL
 
 //Native
@@ -236,5 +228,3 @@ public:
 };
 
 extern MainDataBase mdb;
-
-#endif /* MAINDATABASE_H_ */

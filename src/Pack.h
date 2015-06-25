@@ -1,12 +1,4 @@
-/*
- * Pack.h
- *
- *  Created on: 03.05.2010
- *      Author: dilma
- */
-
-#ifndef PACK_H_
-#define PACK_H_
+#pragma once
 //STL
 
 //Native
@@ -226,4 +218,3 @@ public:
 
 extern PackCollection *packSet;
 
-#endif /* PACK_H_ */

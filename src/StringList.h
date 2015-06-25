@@ -1,12 +1,4 @@
-/*
- * StringList.h
- *
- *  Created on: Jul 1, 2010
- *      Author: dilma
- */
-
-#ifndef STRINGLIST_H_
-#define STRINGLIST_H_
+#pragma once
 //STL
 
 //Native
@@ -114,5 +106,3 @@ public:
         return text();
     }
 };
-
-#endif /* STRINGLIST_H_ */

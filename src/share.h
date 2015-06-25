@@ -1,12 +1,4 @@
-﻿/*
- * share.h
- *
- *  Created on: 01.05.2010
- *      Author: dilma
- */
-
-#ifndef SHARE_H_
-#define SHARE_H_
+﻿#pragma once
 //STL
 #include <iostream>
 
@@ -295,7 +287,3 @@ Glib::RefPtr<Gdk::Pixbuf> getPointIcon(int type);
 extern void initDirs();
 
 extern void parseHintName(const ustring &text, ustring &name, ustring &hint);
-
-#endif
-
-/* SHARE_H_ */

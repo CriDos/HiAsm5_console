@@ -1,12 +1,4 @@
-/*
- * Elements.h
- *
- *  Created on: 07.05.2010
- *      Author: dilma
- */
-
-#ifndef ELEMENTS_H_
-#define ELEMENTS_H_
+#pragma once
 //STL
 
 //Native
@@ -1149,5 +1141,3 @@ public:
     void do_work(ElementPoint *point, TData *data);
     void read_var(ElementPoint *point, TData *data);
 };
-
-#endif /* ELEMENTS_H_ */

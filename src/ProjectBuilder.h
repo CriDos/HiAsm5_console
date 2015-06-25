@@ -1,12 +1,4 @@
-/*
- * ProjectBuilder.h
- *
- *  Created on: 08.08.2010
- *      Author: dilma
- */
-
-#ifndef PROJECTBUILDER_H_
-#define PROJECTBUILDER_H_
+#pragma once
 //STL
 
 //Native
@@ -40,5 +32,3 @@ public:
      */
     void run(MSDK *sdk);
 };
-
-#endif /* PROJECTBUILDER_H_ */

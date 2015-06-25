@@ -1,12 +1,4 @@
-/*
- * ElementGrips.h
- *
- *  Created on: Jun 20, 2010
- *      Author: dilma
- */
-
-#ifndef ELEMENTGRIPS_H_
-#define ELEMENTGRIPS_H_
+#pragma once
 //STL
 
 //Native
@@ -91,5 +83,3 @@ protected:
         return active;
     }
 };
-
-#endif /* ELEMENTGRIPS_H_ */

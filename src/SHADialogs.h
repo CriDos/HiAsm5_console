@@ -1,12 +1,4 @@
-/*
- * SHADialogs.h
- *
- *  Created on: Jun 28, 2010
- *      Author: dilma
- */
-
-#ifndef SHADIALOGS_H_
-#define SHADIALOGS_H_
+#pragma once
 //STL
 
 //Native
@@ -41,5 +33,3 @@ public:
 };
 
 extern SDKDialog shaDlg;
-
-#endif /* SHADIALOGS_H_ */

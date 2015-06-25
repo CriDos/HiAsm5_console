@@ -1,6 +1,4 @@
-#ifndef CODEGEN_H_
-#define CODEGEN_H_
-
+#pragma once
 //STL
 
 //Native
@@ -13,8 +11,8 @@
 #include "SDK.h"
 
 
-typedef enum {
-    PARAM_CODE_PATH         = 0,
+enum CGT_PARAMS {
+    PARAM_CODE_PATH = 0,
     PARAM_DEBUG_MODE,
     PARAM_DEBUG_SERVER_PORT,
     PARAM_DEBUG_CLIENT_PORT,
@@ -26,7 +24,7 @@ typedef enum {
     PARAM_SDE_WIDTH,
     PARAM_SDE_HEIGHT,
     PARAM_COMPILER
-} CGT_PARAMS;
+} ;
 
 
 #define CGT_SIZE 85
@@ -55,5 +53,3 @@ public:
 };
 
 extern Resources resources;
-
-#endif /* CODEGEN_H_ */
