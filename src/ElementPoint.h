@@ -1,4 +1,7 @@
 #pragma once
+//Project
+#include "Element.h"
+
 //STL
 
 //Native
@@ -7,8 +10,6 @@
 
 //Qt
 
-//Project
-#include "Element.h"
 
 // point flags
 #define POINT_FLG_IS_SELECT 0x01

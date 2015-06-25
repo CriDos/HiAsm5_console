@@ -1,4 +1,7 @@
 #pragma once
+//Project
+#include "SDK.h"
+
 //STL
 
 //Native
@@ -6,10 +9,6 @@
 //GTKMM
 
 //Qt
-
-//Project
-#include "SDK.h"
-
 
 enum CGT_PARAMS {
     PARAM_CODE_PATH = 0,

@@ -1,4 +1,6 @@
 ﻿#pragma once
+//Project
+
 //STL
 #include <iostream>
 
@@ -9,8 +11,7 @@
 #include <glib.h>
 
 //Qt
-
-//Project
+#include <QtCore>
 
 
 using namespace Gtk;

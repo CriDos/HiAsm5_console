@@ -1,4 +1,8 @@
 ﻿#pragma once
+//Project
+#include "share.h"
+#include "Pack.h"
+
 //STL
 
 //Native
@@ -7,9 +11,6 @@
 
 //Qt
 
-//Project
-#include "share.h"
-#include "Pack.h"
 
 #define VF_MAKEPOINT   0x01
 #define VF_DBLOPEN     0x02

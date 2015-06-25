@@ -1,4 +1,9 @@
 #pragma once
+//Project
+#include "share.h"
+#include "SDK.h"
+#include "Element.h"
+
 //STL
 
 //Native
@@ -7,10 +12,6 @@
 
 //Qt
 
-//Project
-#include "share.h"
-#include "SDK.h"
-#include "Element.h"
 
 class SDK;
 class Element;

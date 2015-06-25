@@ -1,4 +1,10 @@
 #pragma once
+//Project
+#include "share.h"
+#include "sqlite3.h"
+#include "ElementConfig.h"
+#include "Compiler.h"
+
 //STL
 
 //Native
@@ -7,11 +13,6 @@
 
 //Qt
 
-//Project
-#include "share.h"
-#include "sqlite3.h"
-#include "ElementConfig.h"
-#include "Compiler.h"
 
 class ElementConfig;
 

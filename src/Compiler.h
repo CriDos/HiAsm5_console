@@ -1,4 +1,8 @@
 #pragma once
+//Project
+#include "share.h"
+#include "sqlite3.h"
+
 //STL
 
 //Native
@@ -6,10 +10,6 @@
 //GTKMM
 
 //Qt
-
-//Project
-#include "share.h"
-#include "sqlite3.h"
 
 class Compiler
 {

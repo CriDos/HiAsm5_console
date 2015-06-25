@@ -1,4 +1,9 @@
 #pragma once
+//Project
+#include "share.h"
+#include "SDK.h"
+#include "Elements.h"
+
 //STL
 
 //Native
@@ -7,10 +12,6 @@
 
 //Qt
 
-//Project
-#include "share.h"
-#include "SDK.h"
-#include "Elements.h"
 
 typedef struct _SDK_Dialog_Item {
     ustring name;

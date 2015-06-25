@@ -1,4 +1,9 @@
 #pragma once
+//Project
+#include "share.h"
+#include "Element.h"
+#include "ElementGrips.h"
+
 //STL
 
 //Native
@@ -7,10 +12,6 @@
 
 //Qt
 
-//Project
-#include "share.h"
-#include "Element.h"
-#include "ElementGrips.h"
 
 #define MAX_POINTS 100
 

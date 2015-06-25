@@ -1,4 +1,12 @@
 #pragma once
+//Project
+#include "share.h"
+#include "SDK.h"
+#include "Pack.h"
+#include "Data.h"
+#include "ElementPoint.h"
+#include "ElementProperty.h"
+
 //STL
 
 //Native
@@ -7,13 +15,6 @@
 
 //Qt
 
-//Project
-#include "share.h"
-#include "SDK.h"
-#include "Pack.h"
-#include "Data.h"
-#include "ElementPoint.h"
-#include "ElementProperty.h"
 
 #define ICON_SIZE 24
 

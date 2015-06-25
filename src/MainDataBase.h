@@ -1,4 +1,8 @@
 #pragma once
+//Project
+#include "share.h"
+#include "sqlite3.h"
+
 //STL
 
 //Native
@@ -7,9 +11,6 @@
 
 //Qt
 
-//Project
-#include "share.h"
-#include "sqlite3.h"
 
 typedef struct {
     ustring name;

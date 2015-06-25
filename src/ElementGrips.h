@@ -1,4 +1,7 @@
 #pragma once
+//Project
+#include "share.h"
+
 //STL
 
 //Native
@@ -7,8 +10,6 @@
 
 //Qt
 
-//Project
-#include "share.h"
 
 struct GripValue {
     int *value;

@@ -1,4 +1,10 @@
 #pragma once
+//Project
+#include "share.h"
+#include "Pack.h"
+#include "Element.h"
+#include "SelectManager.h"
+
 //STL
 
 //Native
@@ -7,11 +13,6 @@
 
 //Qt
 
-//Project
-#include "share.h"
-#include "Pack.h"
-#include "Element.h"
-#include "SelectManager.h"
 
 class MSDK;
 class SelectManager;
