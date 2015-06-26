@@ -27,18 +27,18 @@ int sdkGetCount(SDK *sdk)
     return sdk->elements.size();
 }
 
-Element *sdkGetElement(SDK *sdk, int index)
+Element *sdkGetElement(SDK *sdk, unsigned int index)
 {
     CGT_TRACE
     unsigned int n = 0;
-    if(index >= 0 && index < sdk->elements.size()) {
-        for(ElementsList::iterator i = sdk->elements.begin(); i != sdk->elements.end(); ++i)
+    if(index < sdk->elements.size()) {
+        for(Element *i : sdk->elements)
             if(index == n)
-                return *i;
+                return i;
             else
                 n++;
     }
-    return NULL;
+    return nullptr;
 }
 
 Element *sdkGetElementName(SDK *sdk, const char *name)
@@ -500,10 +500,10 @@ Element *propGetLinkedElement(Element *e, const char *propName)
             s = s.substr(7);
         }
 
-        for(ElementsList::iterator e = sdk->elements.begin(); e != sdk->elements.end(); ++e)
-            if((int)(*e)->tpl->conf->interfaces.find(prop->list) != -1)
-                if((*e)->props.getByName("name")->readStr().lowercase() == s)
-                    return *e;
+        for(Element *e : sdk->elements)
+            if((int)e->tpl->conf->interfaces.find(prop->list) != -1)
+                if(e->props.getByName("name")->readStr().lowercase() == s)
+                    return e;
     }
     /*
     var prop:PParamRec;

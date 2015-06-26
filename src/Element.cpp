@@ -996,9 +996,9 @@ void Element::on_change_property(ElementProperty *prop)
 Element *Element::getParentElement()
 {
     if(sdk && sdk->elements.size() > 1) {
-        ElementsList::iterator it = sdk->elements.begin();
+        auto it = sdk->elements.begin();
         ++it;
-        return (*it)->isParent() ? *it : NULL;
+        return (*it)->isParent() ? *it : nullptr;
     }
 
     return NULL;

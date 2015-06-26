@@ -169,8 +169,8 @@ ustring DataValue::serializeStrList(void *value)
     ustring result("#");
     StringList list;
     list = *(ustring *)value;
-    for(StringList::iterator line = list.begin(); line != list.end(); line++)
-        result += int_to_str(line->size()) + ":" + *line + "|";
+    for(const ustring &line : list)
+        result += int_to_str(line.size()) + ":" + line + "|";
     return result;
 }
 

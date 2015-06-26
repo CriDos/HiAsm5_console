@@ -2981,14 +2981,14 @@ void ElementTplParent::addElement(Element *ie)
         } else
             e = dynamic_cast<ElementTplWinControl *>(ie);
         if(e)
-            for(ElementsList::iterator el = parent->elements.begin(); el != parent->elements.end(); el++)
-                if(*el != ie && *el != this) {
+            for(Element *el : parent->elements)
+                if(el != ie && el != this) {
                     ElementTplWinControl *e2;
-                    if((*el)->sdk) {
-                        Element *pe = (*el)->sdk->parent->getParentElement();
+                    if(el->sdk) {
+                        Element *pe = el->sdk->parent->getParentElement();
                         e2 = dynamic_cast<ElementTplWinControl *>(pe);
                     } else
-                        e2 = dynamic_cast<ElementTplWinControl *>(*el);
+                        e2 = dynamic_cast<ElementTplWinControl *>(el);
                     if(e2) {
                         MessageDialog msg("Can not insert more then one interface widget!", false, MESSAGE_ERROR);
                         msg.run();

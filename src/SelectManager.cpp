@@ -52,9 +52,9 @@ void SelectManager::selectRect(gdouble x1, gdouble y1, gdouble x2, gdouble y2)
     bool de = drawEnable;
     drawEnable = false;
     on_selection_change.enabled = false;
-    for(ElementsList::iterator e = sdk->elements.begin(); e != sdk->elements.end(); e++) {
-        if((*e)->checkColliseRect(nx1, ny1, nx2, ny2))
-            add(*e);
+    for(Element *e : sdk->elements) {
+        if(e->checkColliseRect(nx1, ny1, nx2, ny2))
+            add(e);
     }
     drawEnable = de;
     on_selection_change.enabled = true;
@@ -71,16 +71,16 @@ void SelectManager::selectByEdge(SBE_Types mode, gdouble x, gdouble y)
     bool de = drawEnable;
     drawEnable = false;
     on_selection_change.enabled = false;
-    for(ElementsList::iterator it = sdk->elements.begin(); it != sdk->elements.end(); it++) {
+    for(Element *it : sdk->elements) {
         switch(mode) {
         case SBE_EDGE_VERTICAL:
-            if((*it)->y > y) add(*it);
+            if(it->y > y) add(it);
             break;
         case SBE_EDGE_HORIZONTAL:
-            if((*it)->x > x) add(*it);
+            if(it->x > x) add(it);
             break;
         case SBE_EDGE_BOTH:
-            if(((*it)->x > x) || ((*it)->y > y)) add(*it);
+            if((it->x > x) || (it->y > y)) add(it);
             break;
         }
     }

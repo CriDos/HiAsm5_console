@@ -79,44 +79,44 @@ ustring SDK::getPath()
 
 Element *SDK::getElementByName(const ustring &name)
 {
-    for(ElementsList::iterator e = elements.begin(); e != elements.end(); e++) {
-        if((*e)->tpl->name == name)
-            return *e;
+    for(Element *e : elements) {
+        if(e->tpl->name == name)
+            return e;
     }
     return NULL;
 }
 
 Element *SDK::getElementById(int id)
 {
-    for(ElementsList::iterator e = elements.begin(); e != elements.end(); e++) {
-        if((*e)->id == id)
-            return *e;
+    for(Element *e : elements) {
+        if(e->id == id)
+            return e;
     }
-    return NULL;
+    return nullptr;
 }
 
 Element *SDK::getGlobalElementById(int id)
 {
-    for(ElementsList::iterator e = elements.begin(); e != elements.end(); e++) {
-        if((*e)->id == id)
-            return *e;
-        if((*e)->sdk) {
+    for(Element *e : elements) {
+        if(e->id == id)
+            return e;
+        if(e->sdk) {
             // TODO: search in all child SDK
-            Element *fe = (*e)->sdk->getGlobalElementById(id);
+            Element *fe = e->sdk->getGlobalElementById(id);
             if(fe)
                 return fe;
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 void SDK::draw(DrawContext dc, double zoom)
 {
-    for(ElementsList::iterator e = elements.begin(); e != elements.end(); e++) {
-        (*e)->drawLinks(dc);
+    for(Element *e : elements) {
+        e->drawLinks(dc);
     }
-    for(ElementsList::iterator e = elements.begin(); e != elements.end(); e++) {
-        (*e)->draw(dc, zoom);
+    for(Element *e : elements) {
+        e->draw(dc, zoom);
     }
 }
 
@@ -150,13 +150,13 @@ bool SDK::getObjectAtPos(gdouble x, gdouble y, ObjectType *obj)
     obj->obj1 = NULL;
     obj->obj2 = NULL;
 
-    for(ElementsList::reverse_iterator e = elements.rbegin(); e != elements.rend(); e++) {
+    for(auto e = elements.rbegin(); e != elements.rend(); ++e) {
         if((*e)->getObjectAtPos(x, y, obj))
             return true;
     }
 
-    for(ElementsList::iterator e = elements.begin(); e != elements.end(); e++) {
-        if((*e)->findLine(x, y, obj))
+    for(Element *e : elements) {
+        if(e->findLine(x, y, obj))
             return true;
     }
 
@@ -170,19 +170,19 @@ void SDK::getSchemeGeometry(gdouble &min_x, gdouble &min_y, gdouble &max_x, gdou
     max_x = -min_x;
     max_y = max_x;
 
-    for(ElementsList::iterator e = elements.begin(); e != elements.end(); e++) {
-        if((*e)->x < min_x) min_x = (*e)->x;
-        if((*e)->y < min_y) min_y = (*e)->y;
-        if((*e)->x + (*e)->width > max_x) max_x = (*e)->x + (*e)->width;
-        if((*e)->y + (*e)->height > max_y) max_y = (*e)->y + (*e)->height;
+    for(Element *e : elements) {
+        if(e->x < min_x) min_x = e->x;
+        if(e->y < min_y) min_y = e->y;
+        if(e->x + e->width > max_x) max_x = e->x + e->width;
+        if(e->y + e->height > max_y) max_y = e->y + e->height;
     }
 }
 
 void SDK::saveToText(ustring &text, ustring offset)
 {
     TRACE_PROC
-    for(ElementsList::iterator e = elements.begin(); e != elements.end(); e++) {
-        (*e)->saveToText(text, offset, ELEMENT_SAVE_CHANGED);
+    for(Element *e : elements) {
+        e->saveToText(text, offset, ELEMENT_SAVE_CHANGED);
     }
 }
 
