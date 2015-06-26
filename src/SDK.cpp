@@ -435,7 +435,7 @@ SDKParseError SDK::loadFromText(gchar *&text, int &line, int flag)
             if(!prop)
                 ERROR_MSG("prop " << name << " not found!")
                 else
-                    e->hints.restore(_x, _y, _w, _h, prop);
+                    e->hints.addHint(_x, _y, _w, _h, prop);
             nextLine(text);
         } else if(len == 7 && strncmp(tok, "MakeExt", len) == 0) {
             // TODO

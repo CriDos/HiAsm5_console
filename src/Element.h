@@ -199,13 +199,9 @@ public:
 class LinkHints : public std::list<LinkHint *>
 {
 public:
-    void restore(int x, int y, int width, int height, ElementProperty *prop);
-    void draw(DrawContext dc);
+    void addHint(int x, int y, int width, int height, ElementProperty *prop);
     void free();
-    Gdk::Rectangle drawRect();
     void saveToText(ustring &text, const ustring offset);
-    bool getObjectAtPos(gdouble x, gdouble y, ObjectType *obj);
-    void change(ElementProperty *prop);
 };
 
 

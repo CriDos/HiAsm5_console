@@ -94,7 +94,7 @@ void ElementProperties::setParent(Element *parent)
 
 //----------------------------------------------------------------------------------------
 
-void LinkHints::restore(int x, int y, int width, int height, ElementProperty *prop)
+void LinkHints::addHint(int x, int y, int width, int height, ElementProperty *prop)
 {
     LinkHint *h = new LinkHint(prop->parent);
     h->x = x;
@@ -103,13 +103,6 @@ void LinkHints::restore(int x, int y, int width, int height, ElementProperty *pr
     h->height = height;
     h->prop = prop;
     push_back(h);
-    h->updateText();
-}
-
-void LinkHints::draw(DrawContext dc)
-{
-    for(iterator h = begin(); h != end(); ++h)
-        (*h)->draw(dc);
 }
 
 void LinkHints::free()
@@ -117,14 +110,6 @@ void LinkHints::free()
     for(iterator h = begin(); h != end(); ++h)
         delete *h;
     clear();
-}
-
-Gdk::Rectangle LinkHints::drawRect()
-{
-    Gdk::Rectangle r;
-    for(iterator h = begin(); h != end(); ++h)
-        r.join((*h)->drawRect());
-    return r;
 }
 
 void LinkHints::saveToText(ustring &text, const ustring offset)
@@ -137,33 +122,6 @@ void LinkHints::saveToText(ustring &text, const ustring offset)
                     int_to_str((*h)->width) + "," +
                     int_to_str((*h)->height) + "," + pref + (*h)->prop->name + ")"LINE_END;
         }
-}
-
-bool LinkHints::getObjectAtPos(gdouble x, gdouble y, ObjectType *obj)
-{
-    for(iterator h = begin(); h != end(); ++h) {
-        Gdk::Rectangle r = (*h)->drawRect();
-        if(x >= r.get_x() && y >= r.get_y() && x <= r.get_x() + r.get_width() && y <= r.get_y() + r.get_height()) {
-            *obj = ObjectType(*h);
-            return true;
-        }
-    }
-    return false;
-}
-
-void LinkHints::change(ElementProperty *prop)
-{
-    bool ch = false;
-    Gdk::Rectangle r = prop->parent->drawRect();
-    for(iterator h = begin(); h != end(); ++h)
-        if((*h)->prop == prop) {
-            (*h)->updateText();
-            ch = true;
-        }
-    if(ch) {
-        r.join(prop->parent->drawRect());
-        prop->parent->parent->on_redraw_rect.run(&r);
-    }
 }
 
 //----------------------------------------------------------------------------------------
@@ -418,7 +376,6 @@ void Element::draw(DrawContext dc, double zoom)
 
 void Element::drawBody(DrawContext dc, double zoom)
 {
-    hints.draw(dc);
 
     if(flag & ELEMENT_FLG_IS_SELECT)
         Gdk::Cairo::set_source_color(dc, colorDark);
@@ -838,8 +795,7 @@ bool Element::getObjectAtPos(gdouble x, gdouble y, ObjectType *obj)
                 } else pb = pb->next;
         }
 
-    if(hints.getObjectAtPos(x, y, obj))
-        return true;
+
 
     if(!(y < this->y - 3 || y > this->y + height + 3 || x < this->x - 3 || x > this->x + width + 3)) {
         for(ElementPoints::iterator p = points.begin(); p != points.end(); ++p)
@@ -872,8 +828,6 @@ Gdk::Rectangle Element::drawRect()
     for(ElementPoints::iterator p = points.begin(); p != points.end(); ++p)
         r.join((*p)->drawRect());
 
-    if(hints.size())
-        r.join(hints.drawRect());
 
     return r;
 }
@@ -988,7 +942,6 @@ void Element::on_change_property(ElementProperty *prop)
 
     }
 
-    hints.change(prop);
 
     on_property_change.run(prop);
 }
