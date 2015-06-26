@@ -196,6 +196,7 @@ public:
     void setWidth(int value);
 };
 
+//Удалил лишние методы
 class LinkHints : public std::list<LinkHint *>
 {
 public:
@@ -203,35 +204,6 @@ public:
     void free();
     void saveToText(ustring &text, const ustring offset);
 };
-
-
-/*! \struct SysColors
-    \brief system colors
-
-    Provides information about system colors
-*/
-
-struct SysColors {
-    bool load;
-    Gdk::Color btnFace;
-    Gdk::Color btnLight;
-    Gdk::Color btnDark;
-
-    SysColors()
-    {
-        load = false;
-    }
-    void init(Widget *w)
-    {
-        Glib::RefPtr<Gtk::Style> s = w->get_style();
-        btnFace = s->get_bg(Gtk::STATE_NORMAL);
-        btnLight = s->get_light(Gtk::STATE_NORMAL);
-        btnDark = s->get_dark(Gtk::STATE_NORMAL);
-        load = true;
-    }
-};
-
-extern SysColors sysColors;
 
 /*! \class Element
     \brief Base class for element scheme

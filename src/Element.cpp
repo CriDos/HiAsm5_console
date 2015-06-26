@@ -10,7 +10,6 @@
 #include "Element.h"
 #include "StringList.h"
 
-SysColors sysColors;
 std::vector<double> dash(1, 4);
 
 Gdk::Color lightColor;
@@ -120,7 +119,7 @@ void LinkHints::saveToText(ustring &text, const ustring offset)
             text += offset +  " AddHint(" + int_to_str((*h)->x) + "," +
                     int_to_str((*h)->y) + "," +
                     int_to_str((*h)->width) + "," +
-                    int_to_str((*h)->height) + "," + pref + (*h)->prop->name + ")"LINE_END;
+                    int_to_str((*h)->height) + "," + pref + (*h)->prop->name + ")" + LINE_END;
         }
 }
 
@@ -186,12 +185,10 @@ void LinkHint::draw(DrawContext dc)
     //if(old_a == Cairo::ANTIALIAS_NONE)
     //  dc->set_antialias(Cairo::ANTIALIAS_DEFAULT);
 
-    Gdk::Cairo::set_source_color(dc, sysColors.btnLight);
     dc->rectangle(r.get_x(), r.get_y(), r.get_width(), r.get_height());
     //roundRect(dc, r.get_x(), r.get_y(), r.get_width(), r.get_height());
     dc->fill();
 
-    Gdk::Cairo::set_source_color(dc, sysColors.btnDark);
     dc->rectangle(r.get_x(), r.get_y(), r.get_width(), r.get_height());
     //roundRect(dc, r.get_x(), r.get_y(), r.get_width(), r.get_height());
     dc->stroke();
@@ -294,9 +291,6 @@ Element::Element(PackElement *pe, SDK *sdk, gdouble x, gdouble y):
     ElementProperty *c = new ElementProperty(this, "Color", "Element color", data_color);
     sysProps.push_back(c);
     color = (Gdk::Color *)c->value;
-    *color = sysColors.btnFace;
-    colorLight = sysColors.btnLight;
-    colorDark = sysColors.btnDark;
     c->setAsDefault();
 }
 
