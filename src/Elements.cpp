@@ -405,20 +405,6 @@ void ElementMulti::on_change_property(ElementProperty *prop)
     }
 }
 
-void ElementMulti::drawIcon(DrawContext dc)
-{
-    Element::drawIcon(dc);
-    if(icon) {
-        dc->save();
-        dc->translate(x + width - 14, y + height - 14);
-        Gdk::Cairo::set_source_pixbuf(dc, icon, 0.0, 0.0);
-        dc->rectangle(0, 0, 16, 16);
-        dc->clip();
-        dc->paint();
-        dc->restore();
-    }
-}
-
 //--------------------------------------------------------------------------------------------------
 
 ElementEditMulti::ElementEditMulti(PackElement *pe, SDK *sdk, gdouble x, gdouble y):
@@ -588,39 +574,6 @@ void ElementEditMultiBase::on_change_property(ElementProperty *prop)
     }
 }
 
-void ElementEditMultiBase::drawBody(DrawContext dc, double zoom)
-{
-    dc->set_source_rgba(0.5, 0.5, 0.5, isSelect() ? 0.9 : 0.5);
-    dc->set_line_width(2);
-    dc->move_to(x, y);
-    dc->rel_line_to(width, 0);
-    dc->rel_line_to(0, height);
-    dc->rel_line_to(-width, 0);
-    dc->rel_line_to(0, -height);
-    dc->stroke();
-
-    if(isSelect())
-        drawGrips(dc);
-
-    dc->set_line_width(1);
-}
-
-bool ElementEditMultiBase::checkCollise(gdouble x, gdouble y)
-{
-    if(isSelect() && getGripAtPos(x - this->x, y - this->y))
-        return true;
-    if(Element::checkCollise(x, y))
-        return getStateAtPos(x, y) != -1;
-    return false;
-}
-
-bool ElementEditMultiBase::checkColliseRect(gdouble x1, gdouble y1, gdouble x2, gdouble y2)
-{
-    if(Element::checkColliseRect(x1, y1, x2, y2))
-        return !((x1 > x + 5) && (x2 < x + width - 5) && (y1 > y + 5) && (y2 < y + height - 5));
-    return false;
-}
-
 void ElementEditMultiBase::reSize()
 {
     Element::reSize();
@@ -680,68 +633,6 @@ int ElementEditMultiBase::getStateAtPos(gdouble x, gdouble y)
     return -1;
 }
 
-bool ElementEditMultiBase::mouseDown(gdouble x, gdouble y, int button)
-{
-    GripInfo *g = gripDown(x - this->x, y - this->y);
-    if(isSelect() && g)
-        return true;
-
-    state = getStateAtPos(x, y);
-    oldx = x;
-    oldy = y;
-    return state;
-}
-
-void ElementEditMultiBase::mouseMove(gdouble x, gdouble y)
-{
-    if(isActiveGrip()) {
-        gripMove(x - this->x, y - this->y);
-        return;
-    }
-
-    Gdk::Rectangle r = drawRect();
-    switch(state) {
-    case 1:
-    case 3:
-        (*fwidth) += x - oldx;
-        if(state == 1)
-            break;
-    case 2:
-        (*fheight) += y - oldy;
-    }
-    int oldw = width, oldh = height;
-    reSize();
-    rePosPoints();
-    oldx += width - oldw;
-    oldy += height - oldh;
-
-    r.join(drawRect());
-    //parent->on_redraw_rect.run(&r);
-}
-
-void ElementEditMultiBase::mouseUp(gdouble x, gdouble y, int button)
-{
-    if(isActiveGrip())
-        gripUp(x - this->x, y - this->y);
-    else
-        state = -1;
-}
-
-int ElementEditMultiBase::mouseCursor(gdouble x, gdouble y)
-{
-    if(isActiveGrip())
-        return isActiveGrip()->cursor;
-
-    GripInfo *g = getGripAtPos(x - this->x, y - this->y);
-    if(isSelect() && g)
-        return g->cursor;
-
-    if(state > 0)
-        return state + 1;
-
-    return getStateAtPos(x, y) + 1;
-}
-
 //--- ElementGrip
 
 void ElementEditMultiBase::on_grip_change(GripInfo *grip)
@@ -750,18 +641,6 @@ void ElementEditMultiBase::on_grip_change(GripInfo *grip)
     invalidate();
 }
 
-void ElementEditMultiBase::on_grip_draw(DrawContext dc, GripInfo *grip)
-{
-    dc->set_source_rgb(0.0, 0.0, 1.0);
-    if(grip->cursor == 3) {
-        dc->move_to(x + width, y + *voff);
-        dc->rel_line_to(-20, 0);
-    } else {
-        dc->move_to(x + *hoff, y + height);
-        dc->rel_line_to(0, -20);
-    }
-    dc->stroke();
-}
 
 bool ElementEditMultiBase::on_grip_can_change(GripInfo *grip, int &dx, int &dy)
 {
@@ -828,20 +707,6 @@ void ElementDynGeometry::rePosGrids()
     }
 }
 
-void ElementDynGeometry::drawBody(DrawContext dc, double zoom)
-{
-    if(isSelect())
-        drawGrips(dc);
-}
-
-bool ElementDynGeometry::checkCollise(gdouble x, gdouble y)
-{
-    if(isSelect() && getGripAtPos(x - this->x, y - this->y))
-        return true;
-
-    return false;
-}
-
 void ElementDynGeometry::on_grip_change(GripInfo *grip)
 {
     rePosGrids();
@@ -859,52 +724,10 @@ void ElementDynGeometry::on_grip_change(GripInfo *grip)
     *fwidth = width;
 }
 
-void ElementDynGeometry::on_grip_draw(DrawContext dc, GripInfo *grip)
-{
-    int _x = grip->x + this->x;
-    int _y = grip->y + this->y;
-    dc->set_source_rgb(1, 1, 1);
-    dc->rectangle(_x, _y, grip->width, grip->height);
-    dc->fill();
-
-    dc->set_source_rgb(0, 0, 0);
-    dc->rectangle(_x, _y, grip->width, grip->height);
-    dc->stroke();
-}
 
 bool ElementDynGeometry::on_grip_can_change(GripInfo *grip, int &dx, int &dy)
 {
     return true;
-}
-
-bool ElementDynGeometry::mouseDown(gdouble x, gdouble y, int button)
-{
-    r = drawRect();
-    dx = this->x;
-    dy = this->y;
-    if(isSelect() && gripDown(x - dx, y - dy))
-        return true;
-    return false;
-}
-
-void ElementDynGeometry::mouseMove(gdouble x, gdouble y)
-{
-    gripMove(x - dx, y - dy);
-}
-
-void ElementDynGeometry::mouseUp(gdouble x, gdouble y, int button)
-{
-    gripUp(x - dx, y - dy);
-}
-
-int ElementDynGeometry::mouseCursor(gdouble x, gdouble y)
-{
-    if(isActiveGrip())
-        return isActiveGrip()->cursor;
-    if(isSelect())
-        if(GripInfo *g = getGripAtPos(x - this->x, y - this->y))
-            return g->cursor;
-    return 0;
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -992,53 +815,6 @@ bool ElementInfoTip::checkColliseRect(gdouble x1, gdouble y1, gdouble x2, gdoubl
     return false;
 }
 
-void ElementInfoTip::drawBody(DrawContext dc, double zoom)
-{
-    dc->set_line_width(1);
-
-    if(*trans) {
-        Gdk::Cairo::set_source_color(dc, *color);
-        dc->rectangle(x, y, width, height);
-        dc->fill();
-    }
-
-    if(*frame) {
-        dc->set_source_rgb(0.8, 0.8, 0.8);
-        dc->rectangle(x, y, width, height);
-        dc->stroke();
-    }
-
-    if(!textLayout) {
-        textLayout = Pango::Layout::create(dc);
-        if(props[1]->isDefault())
-            textLayout->set_text(*text);
-        else
-            textLayout->set_markup(*text);
-        textLayout->set_wrap(Pango::WRAP_WORD);
-        textLayout->set_ellipsize(Pango::ELLIPSIZE_END);
-        Pango::FontDescription f("arial 10");
-        textLayout->set_font_description(f);
-        textLayout->set_indent(10);
-        textLayout->set_alignment((Pango::Alignment)(*halign + Pango::ALIGN_LEFT));
-    }
-    int w = width - *margin * 2;
-    int h = height - *margin * 2;
-    textLayout->set_width(w * Pango::SCALE);
-    textLayout->set_height(h * Pango::SCALE);
-    //textLayout->context_changed();
-
-    dc->rectangle(x + *margin, y + *margin, w, h);
-    dc->clip();
-
-    dc->set_source_rgb(0, 0, 0);
-    dc->move_to(x + *margin, y + *margin);
-    textLayout->show_in_cairo_context(dc);
-
-    dc->reset_clip();
-
-    ElementDynGeometry::drawBody(dc, zoom);
-}
-
 int ElementInfoTip::mouseCursor(gdouble x, gdouble y)
 {
     if(int m = ElementDynGeometry::mouseCursor(x, y)) return m;
@@ -1102,20 +878,6 @@ bool ElementDebug::getObjectAtPos(gdouble x, gdouble y, ObjectType *obj)
         return true;
     }
     return res;
-}
-
-void ElementDebug::draw(DrawContext dc, double zoom)
-{
-    dc->set_source_rgb(1.0, 0.0, 0.0);
-    int r = width / 2;
-    dc->arc(x + r, y + r, r, 0, 3.1415 * 2);
-    dc->fill();
-    dc->set_source_rgb(colorDark.get_red_p(), colorDark.get_green_p(), colorDark.get_blue_p());
-    dc->arc(x + r, y + r, r, 0, 3.1415 * 2);
-    dc->stroke();
-
-    if(isSelect())
-        drawPoints(dc);
 }
 
 void ElementDebug::remove()
@@ -1262,25 +1024,6 @@ void ElementCoreHub::do_work(ElementPoint *point, TData *data)
             } else
                 (*p)->on_event();
         }
-}
-
-void ElementCoreHub::drawIcon(DrawContext dc)
-{
-    dc->set_source_rgb(0.0, 0.0, 1.0);
-    gdouble _x = x + width / 2;
-
-    for(ElementPoints::iterator p = points.begin(); p != points.end(); p++) {
-        dc->move_to(_x, (*p)->pos->y);
-        if((*p)->type == pt_work)
-            dc->rel_line_to(-(POINT_OFF + 1), 0);
-        else
-            dc->rel_line_to(POINT_OFF + 1, 0);
-        dc->stroke();
-    }
-
-    dc->move_to(_x, y + POINT_OFF + 3);
-    dc->rel_line_to(0, height - 2 * (POINT_OFF + 2));
-    dc->stroke();
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -2058,81 +1801,6 @@ int ang(int i, int a)
     return i;
 }
 
-void ElementHubEx::draw(DrawContext dc, double zoom)
-{
-    static const int kx[] = {0, -1, 0, 0};
-    static const int ky[] = { -1, 0, 1, 0};
-
-    //  if(isSelect())
-    //      dc->set_line_width(3);
-    //  else
-    dc->set_line_width(1);
-    dc->set_source_rgb(0.0, 0.0, 0.5);
-
-    int _x, _y;
-    if(*angle == 2) {
-        _x = points[3]->pos->x + POINT_OFF;
-        _y = points[3]->pos->y;
-    } else {
-        _x = points[1]->pos->x + POINT_OFF;
-        _y = points[1]->pos->y;
-    }
-    dc->rectangle(_x - 1, _y - 1, 3, 3);
-    dc->fill();
-
-    int pp = 0;
-    for(int i = 0; i < 4; i++)
-        if(points[i]->point) {
-            dc->move_to(_x, _y);
-            int a = ang(i, *angle);
-            dc->line_to(points[i]->pos->x + kx[a], points[i]->pos->y + ky[a]);
-            dc->stroke();
-            pp++;
-        }
-
-    if(pp > 2)
-        switch(*angle) {
-        case 0:
-            _x--;
-            dc->move_to(_x, _y - 3);
-            dc->rel_line_to(0, 7);
-            dc->rel_line_to(2, -4);
-            dc->rel_line_to(-2, -3);
-            dc->stroke();
-            break;
-        case 1:
-            _y--;
-            dc->move_to(_x - 3, _y);
-            dc->rel_line_to(7, 0);
-            dc->rel_line_to(-3, 2);
-            dc->rel_line_to(0, -2);
-            dc->stroke();
-            break;
-        case 2:
-            _x++;
-            dc->move_to(_x, _y - 3);
-            dc->rel_line_to(0, 5);
-            dc->rel_line_to(-2, -2);
-            dc->rel_line_to(2, -2);
-            dc->stroke();
-            break;
-        case 3:
-            _y++;
-            dc->move_to(_x - 3, _y);
-            dc->rel_line_to(6, 0);
-            dc->rel_line_to(-2, -2);
-            dc->rel_line_to(-2, 2);
-            dc->stroke();
-            break;
-        }
-
-    if(isSelect()) {
-        dc->set_source_rgb(0.7, 0.7, 0.7);
-        dc->rectangle(x, y, width, height);
-        dc->stroke();
-    }
-}
-
 int hubDirection(PointPos *pp1, PointPos *pp2, int t)
 {
     if(pp1->x == pp2->x)
@@ -2329,73 +1997,6 @@ int ElementGetDataEx::calcSide(ElementPoint *p)
     int i = points.indexOf(p);
     static const unsigned char vals[4][4] = {{2, 1, 0, 3}, {2, 1, 3, 0}, {2, 3, 0, 1}, {3, 1, 0, 2}};
     return vals[*angle][i];
-}
-
-void ElementGetDataEx::draw(DrawContext dc, double zoom)
-{
-    static const int kx[] = { -1, 0, 1, 0};
-    static const int ky[] = {0, 1, 0, -1};
-
-    dc->set_line_width(1);
-    dc->set_source_rgb(1.0, 0.0, 0.0);
-
-    int _x, _y, i = (*angle == 3) ? 3 : 0;
-    _x = points[i]->pos->x + POINT_OFF;
-    _y = points[i]->pos->y;
-    dc->rectangle(_x - 1, _y - 1, 3, 3);
-    dc->fill();
-
-    int pp = 0;
-    for(int i = 0; i < 4; i++)
-        if(points[i]->point) {
-            dc->move_to(_x, _y);
-            int a = ang(i, *angle);
-            dc->line_to(points[i]->pos->x + kx[a], points[i]->pos->y + ky[a]);
-            dc->stroke();
-            pp++;
-        }
-
-    if(pp > 2)
-        switch(*angle) {
-        case 1:
-            _x--;
-            dc->move_to(_x, _y - 3);
-            dc->rel_line_to(0, 7);
-            dc->rel_line_to(2, -4);
-            dc->rel_line_to(-2, -3);
-            dc->stroke();
-            break;
-        case 2:
-            _y--;
-            dc->move_to(_x - 3, _y);
-            dc->rel_line_to(7, 0);
-            dc->rel_line_to(-3, 2);
-            dc->rel_line_to(0, -2);
-            dc->stroke();
-            break;
-        case 3:
-            _x++;
-            dc->move_to(_x, _y - 3);
-            dc->rel_line_to(0, 5);
-            dc->rel_line_to(-2, -2);
-            dc->rel_line_to(2, -2);
-            dc->stroke();
-            break;
-        case 0:
-            _y++;
-            dc->move_to(_x - 3, _y);
-            dc->rel_line_to(6, 0);
-            dc->rel_line_to(-2, -2);
-            dc->rel_line_to(-2, 2);
-            dc->stroke();
-            break;
-        }
-
-    if(isSelect()) {
-        dc->set_source_rgb(0.7, 0.7, 0.7);
-        dc->rectangle(x, y, width, height);
-        dc->stroke();
-    }
 }
 
 void ElementGetDataEx::read_var(ElementPoint *point, TData *data)

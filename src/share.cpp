@@ -9,7 +9,6 @@
 
 //Qt
 
-
 static gchar _version_[32] = {0};
 
 gchar *HIASM_VERSION()

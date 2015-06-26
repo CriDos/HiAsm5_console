@@ -65,16 +65,7 @@ protected:
     virtual ~ElementGrip();
 
     virtual void on_grip_change(GripInfo *grip) = 0;
-    virtual void on_grip_draw(DrawContext dc, GripInfo *grip) = 0;
-    virtual bool on_grip_can_change(GripInfo *grip, int &dx, int &dy) = 0;
 
-    void drawGrips(DrawContext dc);
-
-    GripInfo *gripDown(gdouble x, gdouble y);
-    void gripMove(gdouble x, gdouble y);
-    void gripUp(gdouble x, gdouble y);
-
-    GripInfo *getGripAtPos(gdouble x, gdouble y);
 
     GripInfo *addGrip(gdouble x, gdouble y, int width, int height, int sx, int sy, int cursor);
     void clear();

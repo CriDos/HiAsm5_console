@@ -280,34 +280,6 @@ public:
     virtual ~Element();
 
     /**
-     * Draw element. Call drawBody(), drawIcon(), drawPoints()
-     * @param dc cairo context to draw
-     * @param zoom value of scaling
-     */
-    virtual void draw(DrawContext dc, double zoom);
-    /**
-     * Draw element area rectangle
-     * @param dc cairo context to draw
-     * @param zoom value of scaling
-     */
-    virtual void drawBody(DrawContext dc, double zoom);
-    /**
-     * Draw element icon
-     * @param dc cairo context to draw
-     */
-    virtual void drawIcon(DrawContext dc);
-    /**
-     * Draw element points without links
-     * @param dc cairo context to draw
-     */
-    virtual void drawPoints(DrawContext dc);
-    /**
-     * Draw links of element points
-     * @param dc cairo context to draw
-     */
-    virtual void drawLinks(DrawContext dc);
-
-    /**
      * Add point to element
      * @param name internal point name
      * @param info short description of the point

@@ -69,8 +69,6 @@ public:
     ElementMulti(PackElement *pe, SDK *sdk, gdouble x, gdouble y);
     ~ElementMulti();
 
-    void drawIcon(DrawContext dc);
-
     void saveToText(ustring &text, const ustring offset, int flags);
     void createELink(Element *owner);
 };
@@ -98,25 +96,15 @@ protected:
 
     //--------------------- ElementGrip interface -------------------------
     void on_grip_change(GripInfo *grip);
-    void on_grip_draw(DrawContext dc, GripInfo *grip);
     bool on_grip_can_change(GripInfo *grip, int &dx, int &dy);
 public:
     ElementEditMultiBase(PackElement *pe, SDK *sdk, gdouble x, gdouble y);
-
-    void drawIcon(DrawContext dc) {  }
-    void drawBody(DrawContext dc, double zoom);
-
-    bool checkCollise(gdouble x, gdouble y);
-    bool checkColliseRect(gdouble x1, gdouble y1, gdouble x2, gdouble y2);
 
     void rePosPoints();
 
     void init();
 
-    bool mouseDown(gdouble x, gdouble y, int button);
-    void mouseMove(gdouble x, gdouble y);
-    void mouseUp(gdouble x, gdouble y, int button);
-    int mouseCursor(gdouble x, gdouble y);
+
 };
 
 class ElementEditMulti : public ElementDynPoints, public ElementEditMultiBase
@@ -170,21 +158,13 @@ protected:
     void rePosGrids();
     //--------------------- ElementGrip interface -------------------------
     void on_grip_change(GripInfo *grip);
-    void on_grip_draw(DrawContext dc, GripInfo *grip);
     bool on_grip_can_change(GripInfo *grip, int &dx, int &dy);
 public:
     ElementDynGeometry(PackElement *pe, SDK *sdk, gdouble x, gdouble y);
 
-    void drawBody(DrawContext dc, double zoom);
-
-    bool checkCollise(gdouble x, gdouble y);
 
     void init();
 
-    bool mouseDown(gdouble x, gdouble y, int button);
-    void mouseMove(gdouble x, gdouble y);
-    void mouseUp(gdouble x, gdouble y, int button);
-    int mouseCursor(gdouble x, gdouble y);
 };
 
 class ElementCaption : public Element
@@ -211,9 +191,6 @@ public:
 
     void storePropPointers();
 
-    void drawIcon(DrawContext dc) {  }
-    void drawBody(DrawContext dc, double zoom);
-
     bool checkCollise(gdouble x, gdouble y);
     bool checkColliseRect(gdouble x1, gdouble y1, gdouble x2, gdouble y2);
 
@@ -237,7 +214,6 @@ protected:
 public:
     ElementDebug(PackElement *pe, SDK *sdk, gdouble x, gdouble y);
 
-    void draw(DrawContext dc, double zoom);
 
     bool getObjectAtPos(gdouble x, gdouble y, ObjectType *obj);
 
@@ -289,7 +265,6 @@ public:
     ElementCoreHub(PackElement *pe, SDK *sdk, gdouble x, gdouble y);
 
     void do_work(ElementPoint *point, TData *data);
-    void drawIcon(DrawContext dc);
 
     void remove()
     {
@@ -601,7 +576,6 @@ public:
 
     bool getObjectAtPos(gdouble x, gdouble y, ObjectType *obj);
 
-    void draw(DrawContext dc, double zoom);
 
     void insertInLine(ElementPoint *point, PointPos *pos);
     void connectToPoint(ElementPoint *point);
@@ -620,7 +594,6 @@ public:
     }
     void insertInLine(ElementPoint *point, PointPos *pos);
     int calcSide(ElementPoint *p);
-    void draw(DrawContext dc, double zoom);
     void read_var(ElementPoint *point, TData *data);
 };
 

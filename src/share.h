@@ -115,7 +115,6 @@ extern ustring dataDir;
 extern ustring currentDir;
 
 // internal types --------------------------------------------------------------------------------------
-typedef Cairo::RefPtr<Cairo::Context> DrawContext;
 typedef Glib::RefPtr<Gdk::Pixbuf> TypePixbuf;
 
 // macro -----------------------------------------------------------------------------------------------
