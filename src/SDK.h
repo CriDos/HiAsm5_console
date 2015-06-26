@@ -13,7 +13,6 @@
 
 //Qt
 
-
 class MSDK;
 class SelectManager;
 class Pack;
@@ -24,8 +23,6 @@ typedef enum {
     SDK_PERR_SYNTAX,
     SDK_PERR_PACK_NOT_FOUND,
 } SDKParseError;
-
-//typedef std::list<Element*> ElementsList;
 
 /*! \class SDK_Lib
     \brief container list
@@ -62,18 +59,6 @@ public:
     Element *parent;        /**< pointer to parent element (if this SDK is child for multi element) */
     SelectManager *selMan;  /**< SelectManager required in SDK_Editor */
 
-    Event on_redraw_rect;   /**< do when SDK require redraw rectangle */
-    Event on_add_element;   /**< do when element added to SDK */
-    Event on_remove_element;/**< do when element removed from SDK */
-
-    //------------ use in sdk_editor
-    gdouble pasteX;         /**< x-coordinate to insert elements from the Clipboard */
-    gdouble pasteY;         /**< y-coordinate to insert elements from the Clipboard */
-
-    gdouble scrollX;        /**< value of horizontal scrollbar */
-    gdouble scrollY;        /**< value of vertical scrollbar */
-    //------------------------------
-
     SDK();
     virtual ~SDK();
 
@@ -91,13 +76,6 @@ public:
      */
     Element *add(const ustring &name, gdouble x, gdouble y);
     /**
-     * Draw SDK
-     * @param dc cairo context for drawing operation
-     * @param zoom value of scaling
-     */
-    void draw(DrawContext dc, double zoom);
-
-    /**
      * Remove all elements from SDK (do not use directly!)
      */
     void clear();
@@ -106,7 +84,6 @@ public:
      * @param element pointer to element that must be removed
      */
     void remove(Element *element);
-
     /**
      * Get full path for SDK
      * @return full SDK path
@@ -131,25 +108,6 @@ public:
      * @return pointer to element
      */
     Element *getGlobalElementById(int id);
-
-    /**
-     * Get object by position (i.e. element, point, line, link point, ...)
-     * @param x
-     * @param y
-     * @param obj object, which is located at (x, y)
-     * @return true if the object is found, else false (equal obj.type == SDK_OBJ_NONE)
-     */
-    bool getObjectAtPos(gdouble x, gdouble y, ObjectType *obj);
-
-    /**
-     * Calculates the area occupied by all objects of the scheme
-     * @param min_x minimum x coordinate of the objects
-     * @param min_y minimum y coordinate of the objects
-     * @param max_x maximum x coordinate of the objects
-     * @param max_y maximum y coordinate of the objects
-     */
-    void getSchemeGeometry(gdouble &min_x, gdouble &min_y, gdouble &max_x, gdouble &max_y);
-
     /**
      * Save current SDK to text
      * @param text saved scheme as text
@@ -164,16 +122,6 @@ public:
      * @return parse error
      */
     SDKParseError loadFromText(gchar *&text, int &line, int flag = 0);
-
-    /**
-     * Move element to top
-     */
-    void moveToTop(Element *e);
-    /**
-     * Move element to down
-     */
-    void moveToDown(Element *e);
-
     /**
      * Prepare elements for run
      * @param parent element fro current SDK
@@ -209,15 +157,13 @@ class MSDK : public SDK
 private:
     int nextID;         /**< contain value of next unique ID */
     bool running;       /**< contain SDK run state */
-protected:
+
 public:
     Pack *pack;         /**< base Pack of current scheme */
     PackProject *packProject;   /**< base Project of current scheme */
     ustring info;       /**< user information about this scheme */
     ustring fileName;   /**< name of loaded file */
     SDK_Lib sdkLib;     /**< list of linked elements */
-
-    Event on_run_state; /**< emit when call run() or stop() methods */
 
     MSDK();
     ~MSDK();

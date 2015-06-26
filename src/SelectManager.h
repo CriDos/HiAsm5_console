@@ -36,10 +36,6 @@ private:
      */
     void reDrawAll();
 
-    /**
-     * Receive data from clipboard
-     */
-    virtual void getClipboardText(const ustring &text);
 public:
     /**
      * SelectByEdge types for commands SlideTo
@@ -141,10 +137,6 @@ public:
      * Copy selected elements to clipboard
      */
     void copy();
-    /**
-     * Paste elements from clipboard
-     */
-    void paste();
     /**
      * Copy selected element as link to clipboard
      */

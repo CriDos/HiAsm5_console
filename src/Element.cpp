@@ -745,8 +745,8 @@ Gdk::Rectangle Element::drawRect()
 
 void Element::invalidate()
 {
-    Gdk::Rectangle r = drawRect();
-    parent->on_redraw_rect.run(&r);
+    //Gdk::Rectangle r = drawRect();
+    //parent->on_redraw_rect.run(&r);
 }
 
 ElementPoint *Element::getFirstFreePoint(int type)

@@ -18,14 +18,12 @@ SelectManager::SelectManager(SDK *sdk):
 
 void SelectManager::reDraw(const Gdk::Rectangle &r)
 {
-    if(drawEnable)
-        sdk->on_redraw_rect.run(&r);
+
 }
 
 void SelectManager::reDrawAll()
 {
-    if(drawEnable)
-        sdk->on_redraw_rect.run(NULL);
+
 }
 
 void SelectManager::add(Element *element)
@@ -218,39 +216,4 @@ void SelectManager::copyAsLink()
     ustring text;
     getFirst()->saveAsLink(text);
     Clipboard::get()->set_text(text);
-}
-
-void SelectManager::getClipboardText(const ustring &text)
-{
-    gchar *buf = new gchar[text.bytes() + 1], *sbuf;
-    strcpy(buf, text.c_str());
-    int line = 1;
-    sbuf = buf;
-
-    bool de = drawEnable;
-    drawEnable = false;
-    on_selection_change.enabled = false;
-    clear();
-
-    if(SDKParseError e = sdk->loadFromText(buf, line, ELEMENT_LOAD_PASTE))
-        std::cout << "Error parse[" << line << "]: code " << e << std::endl;
-    delete[] sbuf;
-
-    drawEnable = de;
-    on_selection_change.enabled = true;
-    on_selection_change.run(NULL);
-
-    Gdk::Rectangle r = getSelectionRect();
-    gdouble dx = GRID_X(sdk->pasteX - r.get_x());
-    gdouble dy = GRID_Y(sdk->pasteY - r.get_y());
-    move(dx, dy);
-    sdk->pasteX += POINT_SPACE;
-    sdk->pasteY += POINT_SPACE;
-
-    reDrawAll();
-}
-
-void SelectManager::paste()
-{
-    Clipboard::get()->request_text(sigc::mem_fun(*this, &SelectManager::getClipboardText));
 }

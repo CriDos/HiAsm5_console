@@ -28,18 +28,9 @@ void SDK_Lib::add(Element *element)
 
 //------------------------------------------------------------------------------------------
 
-SDK::SDK():
-    on_redraw_rect(this, CBT_SDK_REDRAW_RECT),
-    on_add_element(this, CBT_SDK_ADD_ELEMENT),
-    on_remove_element(this, CBT_SDK_REMOVE_ELEMENT)
+SDK::SDK()
 {
-    parent = NULL;
-
-    pasteX = 0;
-    pasteY = 0;
-
-    scrollX = 0;
-    scrollY = 0;
+    parent = nullptr;
 
     selMan = new SelectManager(this);
 }
@@ -61,7 +52,6 @@ void SDK::clear()
 void SDK::remove(Element *element)
 {
     elements.remove(element);
-    on_remove_element.run(element);
     element->remove();
     delete element;
 }
@@ -110,15 +100,6 @@ Element *SDK::getGlobalElementById(int id)
     return nullptr;
 }
 
-void SDK::draw(DrawContext dc, double zoom)
-{
-    for(Element *e : elements) {
-        e->drawLinks(dc);
-    }
-    for(Element *e : elements) {
-        e->draw(dc, zoom);
-    }
-}
 
 Element *SDK::add(const ustring &name, gdouble x, gdouble y)
 {
@@ -129,11 +110,6 @@ Element *SDK::add(const ustring &name, gdouble x, gdouble y)
     e->id = getMSDK()->genNextID();
     elements.push_back(e);
 
-    Gdk::Rectangle r = e->drawRect();
-    on_redraw_rect.run(&r);
-
-    on_add_element.run(e);
-
     return e;
 }
 
@@ -142,72 +118,6 @@ MSDK *SDK::getMSDK()
     SDK *msdk = this;
     while(msdk->parent) msdk = msdk->parent->parent;
     return (MSDK *)msdk;
-}
-
-bool SDK::getObjectAtPos(gdouble x, gdouble y, ObjectType *obj)
-{
-    obj->type = SDK_OBJ_NONE;
-    obj->obj1 = NULL;
-    obj->obj2 = NULL;
-
-    for(auto e = elements.rbegin(); e != elements.rend(); ++e) {
-        if((*e)->getObjectAtPos(x, y, obj))
-            return true;
-    }
-
-    for(Element *e : elements) {
-        if(e->findLine(x, y, obj))
-            return true;
-    }
-
-    return false;
-}
-
-void SDK::getSchemeGeometry(gdouble &min_x, gdouble &min_y, gdouble &max_x, gdouble &max_y)
-{
-    min_x = 1 << 8;
-    min_y = min_x;
-    max_x = -min_x;
-    max_y = max_x;
-
-    for(Element *e : elements) {
-        if(e->x < min_x) min_x = e->x;
-        if(e->y < min_y) min_y = e->y;
-        if(e->x + e->width > max_x) max_x = e->x + e->width;
-        if(e->y + e->height > max_y) max_y = e->y + e->height;
-    }
-}
-
-void SDK::saveToText(ustring &text, ustring offset)
-{
-    TRACE_PROC
-    for(Element *e : elements) {
-        e->saveToText(text, offset, ELEMENT_SAVE_CHANGED);
-    }
-}
-
-void SDK::moveToTop(Element *e)
-{
-    if(!e) return;
-
-    elements.remove(e);
-    elements.push_back(e);
-
-    e->invalidate();
-}
-
-void SDK::moveToDown(Element *e)
-{
-    if(!e) return;
-
-    for(ElementsList::iterator el = elements.begin(); el != elements.end(); el++)
-        if(*el != e && !(*el)->isNoDelete()) {
-            elements.remove(e);
-            elements.insert(el, e);
-            break;
-        }
-
-    e->invalidate();
 }
 
 gchar *getToken(gchar *&text, int &len)
@@ -294,6 +204,14 @@ void nextLine(char *&text)
 {
     while(*text != '\r' && *text != '\n')
         text++;
+}
+
+void SDK::saveToText(ustring &text, ustring offset)
+{
+    TRACE_PROC
+    for(Element *e : elements) {
+        e->saveToText(text, offset, ELEMENT_SAVE_CHANGED);
+    }
 }
 
 SDKParseError SDK::loadFromText(gchar *&text, int &line, int flag)
@@ -607,8 +525,7 @@ Element *SDK::getManagerByName(ustring name)
 
 //-----------------------------------------------------------------------------------------------------------------
 
-MSDK::MSDK(): SDK(),
-    on_run_state(this, CBT_SDK_RUN_CHANGE)
+MSDK::MSDK(): SDK()
 {
     pack = NULL;
     packProject = NULL;
@@ -631,7 +548,7 @@ bool MSDK::saveToFile(const ustring &file_name)
     text += ustring("Make(") + pack->name + ")"LINE_END;
     text += ustring("ver(") + HIASM_VERSION() + ")"LINE_END;
 
-    saveToText(text);
+    //saveToText(text);
 
     g_file_set_contents(file_name.c_str(), text.c_str(), -1, NULL);
 
@@ -692,8 +609,6 @@ void MSDK::run(bool as_app)
 
     Element *w = NULL;
     prepareForRun(&w);
-
-    on_run_state.run(this);
 }
 
 void MSDK::stop()
@@ -701,6 +616,4 @@ void MSDK::stop()
     running = false;
 
     stopRun();
-
-    on_run_state.run(this);
 }

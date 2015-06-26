@@ -253,7 +253,7 @@ void ElementDynPoints::on_change_property(ElementProperty *prop)
                 }
                 rePosPoints();
                 r.join(drawRect());
-                parent->on_redraw_rect.run(&r);
+                //parent->on_redraw_rect.run(&r);
             }
         }
 
@@ -325,7 +325,7 @@ void ElementNamedDynPoints::on_change_property(ElementProperty *prop)
             }
             rePosPoints();
             r.join(drawRect());
-            parent->on_redraw_rect.run(&r);
+            //parent->on_redraw_rect.run(&r);
         }
 
     Element::on_change_property(prop);
@@ -560,11 +560,11 @@ void ElementEditMultiBase::on_change_property(ElementProperty *prop)
     if(prop->value == fwidth) {
         width = *fwidth;
         rePosPoints();
-        parent->on_redraw_rect.run(NULL);
+        //parent->on_redraw_rect.run(NULL);
     } else if(prop->value == fheight) {
         height = *fheight;
         rePosPoints();
-        parent->on_redraw_rect.run(NULL);
+        //parent->on_redraw_rect.run(NULL);
     } else if(prop->value == voff) {
         *voff = (*voff / POINT_SPACE) * POINT_SPACE;
         vgrip->move(0, *voff);
@@ -715,7 +715,7 @@ void ElementEditMultiBase::mouseMove(gdouble x, gdouble y)
     oldy += height - oldh;
 
     r.join(drawRect());
-    parent->on_redraw_rect.run(&r);
+    //parent->on_redraw_rect.run(&r);
 }
 
 void ElementEditMultiBase::mouseUp(gdouble x, gdouble y, int button)
@@ -846,7 +846,7 @@ void ElementDynGeometry::on_grip_change(GripInfo *grip)
     rePosGrids();
     Gdk::Rectangle nr = drawRect();
     r.join(nr);
-    parent->on_redraw_rect.run(&r);
+    //parent->on_redraw_rect.run(&r);
     r = nr;
 
     height = max(1, height);
@@ -2957,13 +2957,13 @@ void ElementTplWinControl::do_work(ElementPoint *point, TData *data)
 ElementTplParent::ElementTplParent(PackElement *pe, SDK *sdk, gdouble x, gdouble y):
     Element(pe, sdk, x, y), ElementTplWinControl(pe, sdk, x, y)
 {
-    parent->on_add_element += this;
+    //parent->on_add_element += this;
     flag |= ELEMENT_FLG_IS_PARENT;
 }
 
 ElementTplParent::~ElementTplParent()
 {
-    parent->on_add_element -= this;
+    //parent->on_add_element -= this;
 }
 
 void ElementTplParent::callback(void *owner, CallbackType type, const void *data)

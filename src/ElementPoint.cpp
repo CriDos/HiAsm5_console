@@ -67,7 +67,7 @@ void ElementPoint::clear()
             pos->next = pb;
         }
         pos->next = NULL;
-        parent->parent->on_redraw_rect.run(&r);
+        //parent->parent->on_redraw_rect.run(&r);
     } else pos->prev = NULL;
 
     if(point) {
@@ -280,7 +280,7 @@ void ElementPoint::createPath()
     tracePath(point1->pos, v1, v2);
 
     Gdk::Rectangle r = drawRect();
-    parent->parent->on_redraw_rect.run(&r);
+    //parent->parent->on_redraw_rect.run(&r);
 
 }
 
@@ -366,7 +366,7 @@ void ElementPoint::removeLinePoint(PointPos *lp)
 
     Gdk::Rectangle r = drawRect();
     r.join(old);
-    parent->parent->on_redraw_rect.run(&r);
+    //parent->parent->on_redraw_rect.run(&r);
 }
 
 void ElementPoint::moveLinePoint(PointPos *lp, gdouble x, gdouble y)
@@ -398,7 +398,7 @@ void ElementPoint::moveLinePoint(PointPos *lp, gdouble x, gdouble y)
 
     Gdk::Rectangle r = drawRect();
     r.join(old);
-    parent->parent->on_redraw_rect.run(&r);
+    //parent->parent->on_redraw_rect.run(&r);
 }
 
 PointPos *ElementPoint::addLinePoint(PointPos *lp, gdouble x, gdouble y)
@@ -441,7 +441,7 @@ Gdk::Rectangle ElementPoint::drawRect()
 void ElementPoint::invalidate()
 {
     Gdk::Rectangle r = drawRect();
-    parent->parent->on_redraw_rect.run(&r);
+    //parent->parent->on_redraw_rect.run(&r);
 }
 
 ustring ElementPoint::serializePath()
