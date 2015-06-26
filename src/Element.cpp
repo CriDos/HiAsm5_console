@@ -140,81 +140,6 @@ void roundRect(DrawContext dc, gdouble x, gdouble y, int w, int h)
 
 //----------------------------------------------------------------------------------------
 
-Gdk::Rectangle LinkHint::drawRect()
-{
-    return Gdk::Rectangle(parent->x + x - 3, parent->y + y - 3, width + 6, height + 6);
-}
-
-void LinkHint::draw(DrawContext dc)
-{
-    if(!textLayout) {
-        textLayout = Pango::Layout::create(dc);
-        textLayout->set_text(text);
-        textLayout->set_wrap(Pango::WRAP_WORD);
-        //textLayout->set_ellipsize(Pango::ELLIPSIZE_END);
-        Pango::FontDescription f("arial 8");
-        textLayout->set_font_description(f);
-        textLayout->set_indent(10);
-        textLayout->set_alignment(Pango::ALIGN_LEFT);
-        textLayout->set_width(width * Pango::SCALE);
-        textLayout->set_height(-1);
-        textLayout->get_pixel_size(width, height);
-    }
-
-    Gdk::Rectangle r = drawRect();
-
-    Gdk::Cairo::set_source_color(dc, darkColor);
-    int px = parent->x + parent->width / 2;
-    int py = parent->y + parent->height / 2;
-    int mx = parent->x + x + width / 2;
-    int my = parent->y + y + height / 2;
-
-    dc->set_dash(dash, 1);
-    dc->move_to(px, py);
-    if(!(x + width < 0 || x > parent->width))
-        dc->line_to((px + mx) / 2, my);
-    else if(x < 0)
-        dc->line_to((px + parent->x + x + width) / 2, my);
-    else
-        dc->line_to((px + parent->x + x) / 2, my);
-    dc->line_to(mx, my);
-    dc->stroke();
-    dc->unset_dash();
-
-    //Cairo::Antialias old_a = dc->get_antialias();
-    //if(old_a == Cairo::ANTIALIAS_NONE)
-    //  dc->set_antialias(Cairo::ANTIALIAS_DEFAULT);
-
-    dc->rectangle(r.get_x(), r.get_y(), r.get_width(), r.get_height());
-    //roundRect(dc, r.get_x(), r.get_y(), r.get_width(), r.get_height());
-    dc->fill();
-
-    dc->rectangle(r.get_x(), r.get_y(), r.get_width(), r.get_height());
-    //roundRect(dc, r.get_x(), r.get_y(), r.get_width(), r.get_height());
-    dc->stroke();
-
-    //dc->set_antialias(old_a);
-
-    //Gdk::Cairo::set_source_color(dc, darkColor);
-    //dc->rectangle(r.get_x(), r.get_y(), r.get_width() - 1, r.get_height() - 1);
-    //roundRect(dc, r.get_x(), r.get_y(), r.get_width(), r.get_height());
-    //dc->stroke();
-
-    //dc->set_font_size(11);
-    //dc->select_font_face("arial", Cairo::FONT_SLANT_NORMAL, Cairo::FONT_WEIGHT_NORMAL);
-    //dc->move_to(r.get_x() + 4, r.get_y() + 12);
-    //dc->show_text(text);
-
-    //dc->rectangle(r.get_x(), r.get_y(), r.get_width(), r.get_height());
-    //dc->clip();
-
-    dc->set_source_rgb(0, 0, 0);
-    dc->move_to(r.get_x() + 3, r.get_y() + 3);
-    textLayout->show_in_cairo_context(dc);
-
-    //dc->reset_clip();
-}
-
 void LinkHint::updateText()
 {
     if(!prop) {
@@ -250,19 +175,11 @@ void LinkHint::updateText()
     default:
         text = "(no support)";
     }
-    if(textLayout) {
-        textLayout->set_text(text);
-        textLayout->get_pixel_size(width, height);
-    }
 }
 
 void LinkHint::setWidth(int value)
 {
     width = value;
-    if(textLayout) {
-        textLayout->set_width(width * Pango::SCALE);
-        textLayout->get_pixel_size(width, height);
-    }
 }
 
 //----------------------------------------------------------------------------------------

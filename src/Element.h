@@ -174,7 +174,7 @@ class LinkHint
 {
 private:
     ustring text;           /**< text to display on hint */
-    Glib::RefPtr<Pango::Layout> textLayout;
+
 public:
     int x, y;               /**< relative position of the hint */
     int width, height;      /**< linear size */
@@ -188,9 +188,6 @@ public:
         prop = NULL;
         this->parent = parent;
     }
-
-    void draw(DrawContext dc);
-    Gdk::Rectangle drawRect();
 
     void updateText();
     void setWidth(int value);
