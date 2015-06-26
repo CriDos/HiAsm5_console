@@ -30,9 +30,9 @@ ElementCoreTransmitter *SDKDialog::run(const ustring &name)
                 return et;
             }
         delete sdk;
-        DEBUG_MSG("Transmitter not found: " << f.c_str())
+
     } else {
-        DEBUG_MSG("Dialog file not found: " << f.c_str())
+
     }
     return NULL;
 }

@@ -187,11 +187,9 @@ TData &TData::shift()
 
 void TData::dump()
 {
-    DEBUG_MSG("Data dump-------------------")
     TData *n = this;
     int i = 0;
     while(n) {
-        DEBUG_MSG("[" << i++ << "] = " << n->toStr())
         n = n->next;
     }
 }

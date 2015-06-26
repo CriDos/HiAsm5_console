@@ -171,10 +171,8 @@ void LinkHint::setWidth(int value)
 
 //----------------------------------------------------------------------------------------
 
-Element::Element(PackElement *pe, SDK *sdk, gdouble x, gdouble y):
-    on_property_change(this, CBT_ELEMENT_PROP_CHANGE)
+Element::Element(PackElement *pe, SDK *sdk, gdouble x, gdouble y)
 {
-    TRACE_PROC
     this->x = x;
     this->y = y;
     parent = sdk;
@@ -394,7 +392,6 @@ void Element::injectElementAtLine(ElementPoint *pl1, ElementPoint *pl2, ElementP
 
 void Element::insertInLine(ElementPoint *point, PointPos *pos)
 {
-    TRACE_PROC
     if(point->type == pt_event) {
         ElementPoint *work = getFirstFreePoint(pt_work);
         ElementPoint *event = getFirstFreePoint(pt_event);
@@ -680,7 +677,7 @@ void Element::on_change_property(ElementProperty *prop)
     }
 
 
-    on_property_change.run(prop);
+
 }
 
 Element *Element::getParentElement()

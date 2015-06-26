@@ -809,11 +809,10 @@ public:
     virtual Widget *createWidget(Element **parent) = 0;
 };
 
-class ElementTplParent : public ElementTplWinControl, public CallBack
+class ElementTplParent : public ElementTplWinControl
 {
 protected:
     virtual void addElement(Element *ie);
-    virtual void callback(void *owner, CallbackType type, const void *data);
 public:
     ElementTplParent(PackElement *pe, SDK *sdk, gdouble x, gdouble y);
     ~ElementTplParent();

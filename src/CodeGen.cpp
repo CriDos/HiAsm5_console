@@ -16,8 +16,6 @@
 
 Resources resources;
 
-Event cgt_on_debug(NULL, CBT_DEBUG_INFO);
-
 ustring _int_buf_;
 
 //~~~~~~~~~~~~~~~~~~~~~~~~ SDK ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -723,10 +721,10 @@ int _Debug(const char *text, int color)
         else
             buf[0] = '@';
         strcpy(buf + 1, text);
-        cgt_on_debug.run(buf);
+
         delete[] buf;
     } else {
-        cgt_on_debug.run(text);
+
     }
     return 0;
 }
@@ -807,7 +805,6 @@ int _Error(int line, Element *e, const char *text)
     char *buf = new char[strlen(text) + 1];
     buf[0] = '!';
     strcpy(buf + 1, text);
-    cgt_on_debug.run(buf);
     delete[] buf;
     return 0;
 }

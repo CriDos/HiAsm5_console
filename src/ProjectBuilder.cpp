@@ -19,7 +19,6 @@ void ProjectBuilder::buildIneternal(MSDK *sdk, const ustring &name)
 {
     FILE *f = fopen(name.c_str(), "wb");
     if(!f) {
-        cgt_on_debug.run(("!Can not create file with name: " + name).c_str());
         return;
     }
     gchar *cont;
@@ -29,7 +28,6 @@ void ProjectBuilder::buildIneternal(MSDK *sdk, const ustring &name)
         fwrite(cont, 1, len, f);
         g_free(cont);
     } else {
-        cgt_on_debug.run("!Scheme runner not found!");
         return;
     }
     ustring text;
@@ -54,22 +52,19 @@ void ProjectBuilder::buildWithCodeGen(MSDK *sdk, const ustring &name)
 {
     ustring cgen(sdk->pack->path() + "CodeGen.dll");
     if(!file_test(cgen, FILE_TEST_EXISTS)) {
-        cgt_on_debug.run((ustring("!Codegen not found: ") + cgen).c_str());
         return;
     }
 
     GModule *handle  = g_module_open(cgen.c_str(), G_MODULE_BIND_LAZY);
     if(!handle) {
-        cgt_on_debug.run((ustring("!Error load codegen: ") + cgen).c_str());
         return;
     }
     TbuildPrepareProc buildPrepareProc;
     if(g_module_symbol(handle, "buildPrepareProc", (gpointer *)&buildPrepareProc)) {
         int x = buildPrepareProc(nullptr);
-        if(x)
-            cgt_on_debug.run("!Error buildPrepareProc");
+
     } else {
-        cgt_on_debug.run("!Proc buildPrepareProc not found");
+
     }
 
     resources.init();
@@ -80,8 +75,7 @@ void ProjectBuilder::buildWithCodeGen(MSDK *sdk, const ustring &name)
         rec.cgt = GetCGTools;
         rec.sdk = sdk;
         int x = buildProcessProc(&rec);
-        if(x)
-            cgt_on_debug.run("!Error buildProcessProc");
+
         if(sdk->packProject) {
             ustring out_project_name(Glib::filename_display_basename(sdk->fileName));
             out_project_name.erase(out_project_name.length() - 4, 4);   // remove .sha
@@ -113,7 +107,7 @@ void ProjectBuilder::buildWithCodeGen(MSDK *sdk, const ustring &name)
                     cmd.replace(i, fnameLen, prj);
                 }
 
-                cgt_on_debug.run(cmd.c_str());
+
                 system(cmd.c_str());
                 if(!compiler->ext.empty())
                     out_ext = "." + compiler->ext;
@@ -123,15 +117,12 @@ void ProjectBuilder::buildWithCodeGen(MSDK *sdk, const ustring &name)
             }
             out_project_path += out_ext;
 
-            cgt_on_debug.run((ustring("move ") + out_project_path + " to " + (name + out_ext)).c_str());
             GFile *f1 = g_file_new_for_path(out_project_path.c_str());
             GFile *f2 = g_file_new_for_path((name + out_ext).c_str());
             g_file_move(f1, f2, G_FILE_COPY_OVERWRITE, NULL, NULL, NULL, NULL);
-        } else
-            cgt_on_debug.run("!Project not set");
-    } else {
-        cgt_on_debug.run("!Proc buildProcessProc not found");
+        }
     }
+
 
     //  for(Resources::iterator fn = resources.begin(); fn != resources.end(); fn++)
     //      unlink(fn->c_str());
@@ -149,11 +140,8 @@ ustring ProjectBuilder::getOutputProjectName(MSDK *sdk)
 
 void ProjectBuilder::build(MSDK *sdk)
 {
-    cgt_on_debug.run(NULL);
-    cgt_on_debug.run("~Begin build project");
 
     ustring n = getOutputProjectName(sdk);
-    cgt_on_debug.run((ustring("~project name: ") + n).c_str());
 
     //-------------------------------------------------------------
     if(sdk->pack->name == "_base")
@@ -163,7 +151,7 @@ void ProjectBuilder::build(MSDK *sdk)
     }
     //-------------------------------------------------------------
 
-    cgt_on_debug.run("~End build.");
+
 }
 
 void ProjectBuilder::run(MSDK *sdk)

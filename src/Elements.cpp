@@ -240,7 +240,6 @@ void ElementDynPoints::on_change_property(ElementProperty *prop)
                 if(count < val) {   // add
                     for(int j = count; j < val; j++) {
                         ustring n = dynInfoList[i].name + int_to_str(j + 1);
-                        DEBUG_MSG("Add point: " << n.c_str())
                         addPoint(n, "", i + 1);
                     }
                 } else {            // remove
@@ -2568,11 +2567,6 @@ ElementTplParent::~ElementTplParent()
     //parent->on_add_element -= this;
 }
 
-void ElementTplParent::callback(void *owner, CallbackType type, const void *data)
-{
-    addElement((Element *)data);
-}
-
 void ElementTplParent::addElement(Element *ie)
 {
     if(flag & ELEMENT_FLG_ONE_WIDGET) {
@@ -2630,7 +2624,6 @@ Widget *ElementTplForm::createWidget(Element **parent)
 
 bool ElementTplForm::on_button_press(GdkEventButton *event)
 {
-    DEBUG_MSG("event!!!")
     return true;
 }
 
@@ -3031,7 +3024,6 @@ void ElementTplEdit::on_edit_changed()
 
 bool ElementTplEdit::on_button_press(GdkEventKey *key)
 {
-    DEBUG_MSG("Key: " << key->keyval)
     if(key->keyval == 65293) {
         ustring text = ((Entry *)ctl)->get_text();
         ((Entry *)ctl)->set_text("");

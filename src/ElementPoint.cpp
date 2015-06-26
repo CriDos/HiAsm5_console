@@ -220,7 +220,7 @@ void ElementPoint::createPath()
         v1.side = dynamic_cast<ElementHubEx *>(point1->parent)->calcSide(point1);
         v1.l = 2 * POINT_OFF;
         int i = v1.side;
-        DEBUG_MSG("Side is " << i)
+
     }
     //  else if TElement(Point1.Parent.Element) is TGetDataEx then
     //  begin
@@ -253,7 +253,7 @@ void ElementPoint::createPath()
         v2.side = dynamic_cast<ElementHubEx *>(point2->parent)->calcSide(point2);
         v2.l = 2 * POINT_OFF;
         int i = v2.side;
-        DEBUG_MSG("Side is " << i)
+
     }
     //  else if TElement(Point2.Parent.Element) is TGetDataEx then
     //  begin

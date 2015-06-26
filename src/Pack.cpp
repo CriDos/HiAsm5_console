@@ -84,7 +84,6 @@ void PackProject::run(const ustring &project)
 
 Pack::Pack(const ustring &name, const ustring &info)
 {
-    TRACE_PROC
     this->name = name;
     this->info = info;
     title = name;
@@ -178,7 +177,6 @@ ustring Pack::pathElementIcon(const ustring &name)
 
 bool Pack::load()
 {
-    TRACE_PROC
     ustring dir(pathElementsDb());
 
     PackGroup *pk;
@@ -217,7 +215,6 @@ bool Pack::load()
 
 void Pack::addElement(const ustring &tab, const ustring &name, const ustring &info)
 {
-    TRACE_PROC
     ustring dir(pathElementsDb());
 
     sqlite3 *ppDb = NULL;
@@ -246,13 +243,11 @@ void Pack::addElement(const ustring &tab, const ustring &name, const ustring &in
 
 void Pack::addGroup(const ustring &tab, const ustring &group)
 {
-    TRACE_PROC
     addElement(tab, ustring("*") + tab + "_" + group, group);
 }
 
 PackElement *Pack::getElementByName(const ustring &name)
 {
-    TRACE_PROC
     if(elements.empty())
         load();
     for(std::list<PackElement *>::iterator e = elements.begin(); e != elements.end(); e++)
@@ -298,7 +293,6 @@ Compiler *Pack::getActiveCompiler()
 
 PackCollection::PackCollection()
 {
-    TRACE_PROC
     load();
 }
 
@@ -316,7 +310,6 @@ void PackCollection::load()
             pk->id = pack.id;
             push_back(pk);
         } else {
-            DEBUG_MSG("Pack not found: " << pack.codeName.c_str())
             delete pk;
         }
     }

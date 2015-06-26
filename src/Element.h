@@ -274,8 +274,6 @@ public:
     ustring codeName;   /**< code name used in CodeGen */
     void *userData;     /**< user data used in FTCG codegen */
 
-    Event on_property_change;   /**< call when property changed */
-
     Element(PackElement *pe, SDK *sdk, gdouble x, gdouble y);
     virtual ~Element();
 

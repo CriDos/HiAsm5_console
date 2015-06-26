@@ -33,8 +33,6 @@ enum CGT_PARAMS {
 
 extern void *CGT[CGT_SIZE];
 
-extern Event cgt_on_debug;
-
 class Resources : public std::list<ustring>
 {
 public:

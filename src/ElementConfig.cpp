@@ -180,8 +180,6 @@ void ElementConfig::parseMethod(char *buf)
 
 bool ElementConfig::load(const ustring &file_name)
 {
-    TRACE_PROC
-
     std::cout << "load config: " << file_name.c_str() << std::endl;
 
     FILE *f = fopen(file_name.c_str(), "r");

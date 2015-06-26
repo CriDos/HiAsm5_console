@@ -40,7 +40,6 @@ SDK::~SDK()
 
 void SDK::clear()
 {
-    TRACE_PROC
     for(ElementsList::iterator e = elements.begin(); e != elements.end(); e++)
         delete *e;
     elements.clear();
@@ -100,8 +99,6 @@ Element *SDK::getGlobalElementById(int id)
 
 Element *SDK::add(const ustring &name, gdouble x, gdouble y)
 {
-    TRACE_PROC
-
     Element *e = createElement(name, this, x, y);
     e->storePropPointers();
     e->id = getMSDK()->genNextID();
@@ -205,7 +202,6 @@ void nextLine(char *&text)
 
 void SDK::saveToText(ustring &text, ustring offset)
 {
-    TRACE_PROC
     for(Element *e : elements) {
         e->saveToText(text, offset, ELEMENT_SAVE_CHANGED);
     }
@@ -213,8 +209,6 @@ void SDK::saveToText(ustring &text, ustring offset)
 
 SDKParseError SDK::loadFromText(gchar *&text, int &line, int flag)
 {
-    TRACE_PROC
-
     gchar *tok = NULL;
     Element *e = NULL;
     int len;
@@ -259,7 +253,6 @@ SDKParseError SDK::loadFromText(gchar *&text, int &line, int flag)
             }
 
             if(flag & ELEMENT_LOAD_PASTE) {
-                DEBUG_MSG("old: " << id << " new: " << e->id)
                 einf.push_back(_ElementInfo(e, id));
             } else {
                 e->id = id;
@@ -270,12 +263,10 @@ SDKParseError SDK::loadFromText(gchar *&text, int &line, int flag)
             e->init();
             //e = NULL;
         } else if(len == 9 && strncmp(tok, "BEGIN_SDK", len) == 0) {
-            DEBUG_MSG("Load sub SDK")
             //e->sdk->clear();
             SDKParseError err = e->sdk->loadFromText(text, line, flag);
             if(err) return err;
         } else if(len == 7 && strncmp(tok, "END_SDK", len) == 0) {
-            DEBUG_MSG("End sub SDK")
             break;
         } else if(*tok == '@') {
             ustring name(getTok(&text, '='));
@@ -331,7 +322,7 @@ SDKParseError SDK::loadFromText(gchar *&text, int &line, int flag)
             } else if(ElementProperty *prop = e->props.getByPointName(p)) {
                 prop->makePoint();  // TODO add wo invalidate
             } else {
-                DEBUG_MSG("Custom point with name " << p << " not found!")
+
             }
         } else if(len == 7 && strncmp(tok, "AddHint", len) == 0) {
             if(*getToken(text, len) != '(') return SDK_PERR_SYNTAX;
@@ -346,10 +337,8 @@ SDKParseError SDK::loadFromText(gchar *&text, int &line, int flag)
                 prop = e->sysProps.getByName(name + 1);
             else
                 prop = e->props.getByName(name);
-            if(!prop)
-                ERROR_MSG("prop " << name << " not found!")
-                else
-                    e->hints.addHint(_x, _y, _w, _h, prop);
+            if(prop)
+                e->hints.addHint(_x, _y, _w, _h, prop);
             nextLine(text);
         } else if(len == 7 && strncmp(tok, "MakeExt", len) == 0) {
             // TODO
@@ -370,9 +359,11 @@ SDKParseError SDK::loadFromText(gchar *&text, int &line, int flag)
                 prop = e->sysProps.getByName(pname);
                 if(prop)
                     prop->initFromText(ustring(tok));
-                else
-                    DEBUG_MSG("Property not found: " << pname.c_str())
+                else {
+
                 }
+
+            }
         }
         //      std::cout << "parse line: " << line << std::endl;
         line++;
@@ -380,7 +371,6 @@ SDKParseError SDK::loadFromText(gchar *&text, int &line, int flag)
 
     if(first) {
         if(elink.size()) {
-            DEBUG_MSG("library restore...")
             for(_ElementLinkList::iterator el = elink.begin(); el != elink.end(); el++) {
                 Element *emain = NULL;
                 if(!(flag & ELEMENT_LOAD_FILE))
@@ -392,7 +382,6 @@ SDKParseError SDK::loadFromText(gchar *&text, int &line, int flag)
             }
         }
 
-        DEBUG_MSG("post connections...")
         for(_PostConnectList::iterator p = pcon.begin(); p != pcon.end(); p++) {
             Element *e2 = (flag & ELEMENT_LOAD_PASTE) ? _getElementById(einf, (*p).e2) : (*p).e1->parent->getElementById((*p).e2);
             if(e2) {
@@ -412,14 +401,17 @@ SDKParseError SDK::loadFromText(gchar *&text, int &line, int flag)
                             pp = p1->addLinePoint(pp, x, y);
                         }
                         delete[] del_path;
-                    } else
-                        DEBUG_MSG("Point not found: " << (*p).p1)
-                    } else
-                    DEBUG_MSG("Point not found: " << (*p).p2 << " on element " << e2->tpl->name.c_str())
-                } else
+                    } else {
+
+                    }
+
+                } else {
+
+                }
+
+            } else
                 std::cout << "Element not found: " << (*p).e2 << std::endl;
         }
-        DEBUG_MSG("Load complete.")
 
         einf.clear();
         pcon.clear();
@@ -555,7 +547,6 @@ bool MSDK::saveToFile(const ustring &file_name)
 
 bool MSDK::loadFromFile(const ustring &file_name)
 {
-    TRACE_PROC
     if(file_test(file_name, FILE_TEST_EXISTS)) {
         gchar *cont, *scont;
         gsize len;
@@ -566,9 +557,9 @@ bool MSDK::loadFromFile(const ustring &file_name)
             int line = 1;
             if(SDKParseError e = loadFromText(cont, line, ELEMENT_LOAD_FILE))
                 std::cout << "Error[" << line << "]: code " << e << std::endl;
-            else
-                DEBUG_MSG("Load " << line << " lines.")
+            else {
                 fileName = file_name;
+            }
             g_free(scont);
 
             for(ElementsList::iterator e = elements.begin(); e != elements.end(); e++) {
