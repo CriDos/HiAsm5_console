@@ -1,3 +1,6 @@
+//Project
+#include "MainDataBase.h"
+
 //STL
 
 //Native
@@ -6,8 +9,6 @@
 
 //Qt
 
-//Project
-#include "MainDataBase.h"
 
 MainDataBase mdb;
 

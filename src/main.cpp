@@ -1,3 +1,10 @@
+//Project
+#include "Pack.h"
+#include "SDK.h"
+#include "Elements.h"
+#include "MainDataBase.h"
+#include "ProjectBuilder.h"
+
 //STL
 #include <iostream>
 
@@ -9,12 +16,6 @@
 
 //Qt
 
-//Project
-#include "Pack.h"
-#include "SDK.h"
-#include "Elements.h"
-#include "MainDataBase.h"
-#include "ProjectBuilder.h"
 
 using namespace std;
 using namespace Gtk;

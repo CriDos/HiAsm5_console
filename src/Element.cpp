@@ -1,4 +1,8 @@
-﻿//STL
+﻿//Project
+#include "Element.h"
+#include "StringList.h"
+
+//STL
 
 //Native
 
@@ -6,9 +10,6 @@
 
 //Qt
 
-//Project
-#include "Element.h"
-#include "StringList.h"
 
 std::vector<double> dash(1, 4);
 

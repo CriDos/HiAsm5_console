@@ -1,4 +1,8 @@
-﻿//STL
+﻿//Project
+#include "Compiler.h"
+#include "MainDataBase.h"
+
+//STL
 
 //Native
 
@@ -6,9 +10,6 @@
 
 //Qt
 
-//Project
-#include "Compiler.h"
-#include "MainDataBase.h"
 
 CompilerCollection *compilerSet;
 

@@ -1,3 +1,6 @@
+//Project
+#include "StringList.h"
+
 //STL
 
 //Native
@@ -5,9 +8,6 @@
 //GTKMM
 
 //Qt
-
-//Project
-#include "StringList.h"
 
 void StringList::loadFromFile(const ustring &fileName)
 {

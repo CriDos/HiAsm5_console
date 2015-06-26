@@ -1,3 +1,7 @@
+//Project
+#include "Pack.h"
+#include "MainDataBase.h"
+
 //STL
 #include <stdio.h>
 #include <string.h>
@@ -8,10 +12,6 @@
 #include <glib-2.0/glib/gstdio.h>
 
 //Qt
-
-//Project
-#include "Pack.h"
-#include "MainDataBase.h"
 
 PackCollection *packSet;
 

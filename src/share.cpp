@@ -1,3 +1,6 @@
+//Project
+#include "share.h"
+
 //STL
 
 //Native
@@ -6,8 +9,6 @@
 
 //Qt
 
-//Project
-#include "share.h"
 
 static gchar _version_[32] = {0};
 

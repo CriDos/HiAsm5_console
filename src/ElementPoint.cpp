@@ -1,3 +1,8 @@
+//Project
+#include "ElementPoint.h"
+#include "Data.h"
+#include "Elements.h"
+
 //STL
 
 //Native
@@ -6,10 +11,6 @@
 
 //Qt
 
-//Project
-#include "ElementPoint.h"
-#include "Data.h"
-#include "Elements.h"
 
 ElementPoint::ElementPoint(Element *parent, const ustring &name, const ustring &info, int type)
 {
@@ -441,7 +442,6 @@ Gdk::Rectangle ElementPoint::drawRect()
 void ElementPoint::invalidate()
 {
     Gdk::Rectangle r = drawRect();
-    //parent->parent->on_redraw_rect.run(&r);
 }
 
 ustring ElementPoint::serializePath()

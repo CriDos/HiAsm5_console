@@ -1,3 +1,6 @@
+//Project
+#include "ElementGrips.h"
+
 //STL
 
 //Native
@@ -5,9 +8,6 @@
 //GTKMM
 
 //Qt
-
-//Project
-#include "ElementGrips.h"
 
 ElementGrip::~ElementGrip()
 {

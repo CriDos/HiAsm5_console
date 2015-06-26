@@ -1,3 +1,6 @@
+//Project
+#include "ElementConfig.h"
+
 //STL
 
 //Native
@@ -6,8 +9,6 @@
 
 //Qt
 
-//Project
-#include "ElementConfig.h"
 
 ConfMethod *ConfMethods::getByName(const ustring &name)
 {

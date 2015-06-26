@@ -3,7 +3,6 @@
 #include "share.h"
 #include "Pack.h"
 #include "Element.h"
-#include "SelectManager.h"
 
 //STL
 
@@ -14,8 +13,9 @@
 //Qt
 
 class MSDK;
-class SelectManager;
 class Pack;
+class SDK;
+class Element;
 struct ObjectType;
 
 typedef enum {
@@ -57,7 +57,6 @@ class SDK
 public:
     std::list<Element *> elements;  /**< list of elements */
     Element *parent;        /**< pointer to parent element (if this SDK is child for multi element) */
-    SelectManager *selMan;  /**< SelectManager required in SDK_Editor */
 
     SDK();
     virtual ~SDK();
@@ -67,7 +66,6 @@ public:
      * @return root SDK
      */
     MSDK *getMSDK();
-
     /**
      * Add new element
      * @param name internal code name from Elements.db

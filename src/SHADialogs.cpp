@@ -1,3 +1,6 @@
+//Project
+#include "SHADialogs.h"
+
 //STL
 
 //Native
@@ -6,8 +9,6 @@
 
 //Qt
 
-//Project
-#include "SHADialogs.h"
 
 SDKDialog shaDlg;
 

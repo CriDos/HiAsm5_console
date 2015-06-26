@@ -1,14 +1,14 @@
-﻿//STL
+﻿//Project
+#include "SDK.h"
+#include "Elements.h"
+
+//STL
 
 //Native
 
 //GTKMM
 
 //Qt
-
-//Project
-#include "SDK.h"
-#include "Elements.h"
 
 Element *SDK_Lib::getElementByID(int id)
 {
@@ -31,14 +31,11 @@ void SDK_Lib::add(Element *element)
 SDK::SDK()
 {
     parent = nullptr;
-
-    selMan = new SelectManager(this);
 }
 
 SDK::~SDK()
 {
     clear();
-    delete selMan;
 }
 
 void SDK::clear()
@@ -262,7 +259,6 @@ SDKParseError SDK::loadFromText(gchar *&text, int &line, int flag)
             }
 
             if(flag & ELEMENT_LOAD_PASTE) {
-                selMan->add(e);
                 DEBUG_MSG("old: " << id << " new: " << e->id)
                 einf.push_back(_ElementInfo(e, id));
             } else {

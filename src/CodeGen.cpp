@@ -1,4 +1,9 @@
-﻿//STL
+﻿//Project
+#include "CodeGen.h"
+#include "ProjectBuilder.h"
+#include "Elements.h"
+
+//STL
 
 //Native
 
@@ -6,10 +11,6 @@
 
 //Qt
 
-//Project
-#include "CodeGen.h"
-#include "ProjectBuilder.h"
-#include "Elements.h"
 
 #define CGT_TRACE //TRACE_PROC
 

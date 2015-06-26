@@ -1,3 +1,6 @@
+//Project
+#include "Data.h"
+
 //STL
 
 //Native
@@ -6,8 +9,6 @@
 
 //Qt
 
-//Project
-#include "Data.h"
 
 TData::~_TData()
 {

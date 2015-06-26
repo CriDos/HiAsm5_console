@@ -1,15 +1,15 @@
-﻿//STL
+﻿//Project
+#include "ElementProperty.h"
+#include "Data.h"
+#include "StringList.h"
+
+//STL
 
 //Native
 
 //GTKMM
 
 //Qt
-
-//Project
-#include "ElementProperty.h"
-#include "Data.h"
-#include "StringList.h"
 
 const char *empty = "(empty)";
 

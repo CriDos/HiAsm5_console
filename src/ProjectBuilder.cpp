@@ -1,15 +1,14 @@
-﻿//STL
+﻿//Project
+#include "ProjectBuilder.h"
+#include "CodeGen.h"
+
+//STL
 
 //Native
 
 //GTKMM
 
 //Qt
-
-//Project
-#include "ProjectBuilder.h"
-//#include "SettingsManager.h"
-#include "CodeGen.h"
 
 ProjectBuilder::ProjectBuilder()
 {

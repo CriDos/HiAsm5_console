@@ -15,7 +15,6 @@
 
 //Qt
 
-
 #define ICON_SIZE 24
 
 #define ECL_LIGHT  0.2
@@ -52,6 +51,8 @@ class SDK;
 class Element;
 class ElementPoint;
 class LinkHint;
+
+typedef std::list<Element *> ElementsList;
 
 struct PackElement;
 struct PointPos;
