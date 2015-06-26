@@ -41,7 +41,6 @@ HEADERS += \
     src/Pack.h \
     src/ProjectBuilder.h \
     src/SDK.h \
-    src/SHADialogs.h \
     src/share.h \
     src/StringList.h
 
@@ -60,6 +59,5 @@ SOURCES += \
     src/Pack.cpp \
     src/ProjectBuilder.cpp \
     src/SDK.cpp \
-    src/SHADialogs.cpp \
     src/share.cpp \
     src/StringList.cpp
